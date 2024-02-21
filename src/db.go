@@ -14,6 +14,8 @@ const (
 	dbname   = "healthbite"
 )
 
+var Db *sql.DB
+
 func init_db() {
 	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s", host, port, user, password, dbname)
 	Db, err := sql.Open("postgres", connStr)
