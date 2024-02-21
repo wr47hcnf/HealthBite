@@ -1,17 +1,15 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 	"time"
 )
 
 func main() {
-	fmt.Printf("HealthBite backend server\n2024 Patrick Covaci\n%s\n", time.TimeOnly)
+	timp_curent := time.Now()
 
-	fs := http.FileServer(http.Dir("static/"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	http.HandleFunc("/inregistrare", registrationPage)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		tmpl, err := template.ParseFiles("static/index.html")
@@ -21,7 +19,7 @@ func main() {
 			return
 		}
 
-		err = tmpl.Execute(w, time.TimeOnly)
+		err = tmpl.Execute(w, timp_curent.Format(time.TimeOnly))
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
