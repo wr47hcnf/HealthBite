@@ -16,6 +16,12 @@ func init() {
 		log.Fatal("Failed to connect to database")
 	}
 
+	err = dbInit()
+
+	if err != nil {
+		log.Fatal("Failed to initialize db")
+	}
+
 	fs := http.FileServer(http.Dir("static/"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 }

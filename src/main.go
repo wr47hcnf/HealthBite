@@ -9,7 +9,10 @@ import (
 func main() {
 	timp_curent := time.Now()
 
+	defer Db.Close()
+
 	http.HandleFunc("/inregistrare", registrationPage)
+	http.HandleFunc("/registeruser", registerUser)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		tmpl, err := template.ParseFiles("static/index.html")

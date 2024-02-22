@@ -7,6 +7,8 @@ import (
 	"log"
 )
 
+var Db *sql.DB
+
 const (
 	host     = "localhost"
 	port     = 5432
@@ -15,26 +17,22 @@ const (
 	dbname   = "healthbite"
 )
 
-var Db *sql.DB
-
 func dbConnect() error {
 	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-	Db, err := sql.Open("postgres", connStr)
+	db, err := sql.Open("postgres", connStr)
 
 	if err != nil {
 		log.Fatal(err)
 		return err
 	}
 
-	defer Db.Close()
-
-	err = Db.Ping()
+	err = db.Ping()
 
 	if err != nil {
 		log.Fatal("Failed to connect to the database: ", err)
 		return err
 	}
-
+	Db = db
 	return nil
 }
 
@@ -54,7 +52,7 @@ func dbInit() error {
 
 	_, err = Db.Exec(`
 	CREATE TABLE users (
-		id SERIAL PRIMARY KEY,
+		id UUID PRIMARY KEY,
 		username VARCHAR(50) UNIQUE NOT NULL,
 		password VARCHAR(100) NOT NULL)
    `)
