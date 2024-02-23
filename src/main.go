@@ -1,20 +1,31 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"time"
 )
 
 func main() {
-	timp_curent := time.Now()
-
 	defer Db.Close()
 
 	http.HandleFunc("/inregistrare", registrationPage)
 	http.HandleFunc("/registeruser", registerUser)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("session_cookie")
+
+		if err == nil {
+
+			userID := cookie.Value
+
+			if userID == "" {
+				fmt.Fprintln(w, "No cookie")
+			}
+		}
+
 		tmpl, err := template.ParseFiles("static/index.html")
 
 		if err != nil {
@@ -22,7 +33,7 @@ func main() {
 			return
 		}
 
-		err = tmpl.Execute(w, timp_curent.Format(time.TimeOnly))
+		err = tmpl.Execute(w, time.Now().Format(time.TimeOnly))
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -30,5 +41,9 @@ func main() {
 		}
 	})
 
-	http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", nil)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 }
