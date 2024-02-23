@@ -1,0 +1,29 @@
+/* navbar background color */
+.navbar-custom {
+    background-color: #119DA4;
+  }
+
+  /* navbar text color */
+  .navbar-custom .navbar-text {
+    color: #fff;
+  }
+
+  /* search text box background color */
+  .search-textbox {
+    background-color: #fff;
+    color: #13505B;
+    border-color: #13505B;
+  }
+
+  /* search button background color */
+  .search-button {
+    background-color: #0C7489;
+    border-color: #0C7489;
+    color: #fff;
+  }
+
+  /* search button hover color */
+  .search-button:hover {
+    background-color: #13505B;
+    border-color: #13505B;
+  }
