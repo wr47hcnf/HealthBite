@@ -37,6 +37,7 @@ func dbConnect() error {
 }
 
 func dbInit() error {
+	// Check 'users'
 	var tableExists bool
 	err := Db.QueryRow("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'users')").Scan(&tableExists)
 
@@ -45,23 +46,44 @@ func dbInit() error {
 		return err
 	}
 
-	if tableExists {
-		log.Println("Database already initialized, continuing")
-		return nil
+	if tableExists == false {
+		_, err = Db.Exec(`
+			CREATE TABLE users (
+				id UUID PRIMARY KEY,
+				username VARCHAR(50) UNIQUE NOT NULL,
+				password VARCHAR(100) NOT NULL
+			)
+		`)
+
+		if err != nil {
+			log.Fatal("Failed to initialize 'users' database", err)
+			return err
+		}
+
+		log.Println("Succesfully initialized 'user' database")
 	}
 
-	_, err = Db.Exec(`
-	CREATE TABLE users (
-		id UUID PRIMARY KEY,
-		username VARCHAR(50) UNIQUE NOT NULL,
-		password VARCHAR(100) NOT NULL)
-   `)
+	// Check 'userdata'
+	tableExists = false
+	err = Db.QueryRow("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'users')").Scan(&tableExists)
+	if tableExists == false {
+		_, err = Db.Exec(`
+			CREATE TABLE userdata (
+				uid UUID PRIMARY KEY,
+				fname VARCHAR(10),
+				lname VARCHAR(10),
+				age INT,
+				profilepic VARCHAR(10),
+				FOREIGN KEY (uid) REFERENCES users(id)
+			)
+		`)
 
-	if err != nil {
-		log.Fatal("Failed to initialize database", err)
-		return err
+		if err != nil {
+			log.Fatal("Failed to initialize 'userdata' database", err)
+			return err
+		}
+
+		log.Println("Succesfully initialized 'userdata' database")
 	}
-
-	log.Println("Succesfully initialized database")
 	return nil
 }
