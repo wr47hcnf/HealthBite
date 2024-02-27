@@ -1,28 +1,32 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
-	"time"
 )
 
 func main() {
 	defer Db.Close()
 
-	http.HandleFunc("/inregistrare", registrationPage)
-	http.HandleFunc("/registeruser", registerUser)
+	http.HandleFunc("/register", registerUser)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+
+		pageData := PageData{
+			PageTitle: "Homepage",
+		}
+
 		cookie, err := r.Cookie("session_cookie")
 
-		if err == nil {
-
-			userID := cookie.Value
-
-			if userID == "" {
-				fmt.Fprintln(w, "No cookie")
+		if cookie != nil {
+			err := parseCookie(cookie, &pageData.UserInfo)
+			if err != nil {
+				log.Printf("Failed to parse cookie for %s: %s", r.RemoteAddr, err)
+				pageData.PageError = append(pageData.PageError, Error{
+					ErrorCode:    1,
+					ErrorMessage: "failed to parse cookie",
+				})
 			}
 		}
 
@@ -33,7 +37,7 @@ func main() {
 			return
 		}
 
-		err = tmpl.Execute(w, time.Now().Format(time.TimeOnly))
+		err = tmpl.Execute(w, pageData)
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
