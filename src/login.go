@@ -11,6 +11,7 @@ import (
 )
 
 func registerUser(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles("static/register.tmpl", "static/header.tmpl", "static/navbar.tmpl"))
 	pageData := PageData{
 		PageTitle: "Register",
 	}
@@ -67,11 +68,24 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "User ID:%s\nSalted password: %s\n", userID, hashedpassword)
 	}
 
-	tmpl := template.Must(template.ParseFiles("static/register.html"))
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, pageData)
 }
 
 func loginUser(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles("static/login.tmpl", "static/header.tmpl", "static/navbar.tmpl"))
+	pageData := PageData{
+		PageTitle: "Register",
+	}
+	cookie, err := r.Cookie("session_cookie")
+	if err == nil {
+		parseCookie(cookie, &pageData.UserInfo)
+		pageData.PageError = append(pageData.PageError, Error{
+			ErrorCode:    3,
+			ErrorMessage: fmt.Sprintf("You are already logged in as %s", pageData.UserInfo.Username),
+		})
+		tmpl.Execute(w, pageData)
+		return
+	}
 	if r.Method == http.MethodPost {
 		err := r.ParseForm()
 
@@ -101,7 +115,9 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		var id uuid.UUID
 		var hashedpassword string
 		err = row.Scan(&id, &hashedpassword)
+		if err != nil {
 
+		}
 		/*for rows.Next() {
 			err := rows.Scan(&id, &hashedpassword)
 			if err != nil {
@@ -124,4 +140,5 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		} */
 		// TODO: Incorrect password logic
 	}
+	tmpl.Execute(w, pageData)
 }

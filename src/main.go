@@ -30,9 +30,10 @@ func main() {
 			}
 		}
 
-		tmpl, err := template.ParseFiles("static/index.html")
+		tmpl, err := template.ParseFiles("static/index.tmpl", "static/header.tmpl", "static/navbar.tmpl")
 
 		if err != nil {
+			log.Print("Failed to parse files: ", err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -40,6 +41,7 @@ func main() {
 		err = tmpl.Execute(w, pageData)
 
 		if err != nil {
+			log.Print("Failed to render page: ", err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
