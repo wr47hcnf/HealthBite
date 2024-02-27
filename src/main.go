@@ -10,6 +10,7 @@ func main() {
 	defer Db.Close()
 
 	http.HandleFunc("/register", registerUser)
+	http.HandleFunc("/login", loginUser)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 

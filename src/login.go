@@ -11,7 +11,7 @@ import (
 )
 
 func registerUser(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("static/register.tmpl", "static/header.tmpl", "static/navbar.tmpl"))
+	tmpl := template.Must(template.ParseFiles("static/register.tmpl", "static/error.tmpl", "static/header.tmpl", "static/navbar.tmpl"))
 	pageData := PageData{
 		PageTitle: "Register",
 	}
@@ -36,13 +36,27 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 		password := r.Form.Get("password")
 
 		if usernameRegex := regexp.MustCompile(`[a-zA-Z0-9_]{3,20}$`); !usernameRegex.MatchString(username) {
-			http.Error(w, "Ati introdus un username invalid!", http.StatusBadRequest)
+			pageData.PageError = append(pageData.PageError, Error{
+				ErrorCode:    1,
+				ErrorMessage: fmt.Sprintf("Invalid username!"),
+			})
+			err = tmpl.Execute(w, pageData)
+			if err != nil {
+				log.Print(err)
+			}
 			log.Printf("%s attempted to enter an illegal username", r.RemoteAddr)
 			return
 		}
 
 		if passwordRegex := regexp.MustCompile(`.{6,30}$`); !passwordRegex.MatchString(password) {
-			http.Error(w, "Ati introdus o parola invalida!", http.StatusBadRequest)
+			pageData.PageError = append(pageData.PageError, Error{
+				ErrorCode:    1,
+				ErrorMessage: fmt.Sprintf("Invalid password!"),
+			})
+			err = tmpl.Execute(w, pageData)
+			if err != nil {
+				log.Print(err)
+			}
 			log.Printf("%s attempted to enter an illegal password", r.RemoteAddr)
 			return
 		}
@@ -50,17 +64,26 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 		hashedpassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
 		if err != nil {
-			http.Error(w, "Parola nu a putut fi procesata!", http.StatusInternalServerError)
+			http.Error(w, "Cannot process password!", http.StatusInternalServerError)
 			log.Print(fmt.Sprintf("Failed to hash password for session %s", r.RemoteAddr))
 			return
 		}
 
 		userID, err := uuid.NewRandom()
 
-		_, err = Db.Exec("INSERT INTO users (id, username, password) VALUES ($1, $2, $3)", userID, username, hashedpassword)
+		dbexec, err := Db.Exec("INSERT INTO users (id, username, password) VALUES ($1, $2, $3)", userID, username, hashedpassword)
+		log.Print(dbexec)
 
 		if err != nil {
-			http.Error(w, "Credentialele nu au putut fi inserate in baza de date!", http.StatusInternalServerError)
+			pageData.PageError = append(pageData.PageError, Error{
+				ErrorCode: 1,
+				ErrorMessage: fmt.Sprintf(
+					"Credentials cannot be inserted into the database! Perhaps you used a username already in use!"),
+			})
+			err = tmpl.Execute(w, pageData)
+			if err != nil {
+				log.Print(err)
+			}
 			log.Printf("Could not insert user data in the database for %s: %s", r.RemoteAddr, err)
 			return
 		}
@@ -68,11 +91,14 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "User ID:%s\nSalted password: %s\n", userID, hashedpassword)
 	}
 
-	tmpl.Execute(w, pageData)
+	err = tmpl.Execute(w, pageData)
+	if err != nil {
+		log.Print(err)
+	}
 }
 
 func loginUser(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("static/login.tmpl", "static/header.tmpl", "static/navbar.tmpl"))
+	tmpl := template.Must(template.ParseFiles("static/login.tmpl", "static/header.tmpl", "static/navbar.tmpl", "static/error.tmpl"))
 	pageData := PageData{
 		PageTitle: "Register",
 	}
@@ -83,14 +109,19 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 			ErrorCode:    3,
 			ErrorMessage: fmt.Sprintf("You are already logged in as %s", pageData.UserInfo.Username),
 		})
-		tmpl.Execute(w, pageData)
-		return
 	}
 	if r.Method == http.MethodPost {
 		err := r.ParseForm()
 
 		if err != nil {
-			http.Error(w, "Eroare procesare formular inregistrare: ", http.StatusBadRequest)
+			pageData.PageError = append(pageData.PageError, Error{
+				ErrorCode:    1,
+				ErrorMessage: fmt.Sprintf("Error parsing registration form!"),
+			})
+			err = tmpl.Execute(w, pageData)
+			if err != nil {
+				log.Print(err)
+			}
 			log.Print(fmt.Sprintf("Error parsing registration form for %s: %s ", r.RemoteAddr, err))
 			return
 		}
@@ -99,13 +130,27 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		password := r.Form.Get("password")
 
 		if usernameRegex := regexp.MustCompile(`[a-zA-Z0-9_]{3,20}$`); !usernameRegex.MatchString(username) {
-			http.Error(w, "Ati introdus un username invalid!", http.StatusBadRequest)
+			pageData.PageError = append(pageData.PageError, Error{
+				ErrorCode:    1,
+				ErrorMessage: fmt.Sprintf("Invalid username!"),
+			})
+			err = tmpl.Execute(w, pageData)
+			if err != nil {
+				log.Print(err)
+			}
 			log.Printf("%s attempted to enter an illegal username", r.RemoteAddr)
 			return
 		}
 
 		if passwordRegex := regexp.MustCompile(`.{6,30}$`); !passwordRegex.MatchString(password) {
-			http.Error(w, "Ati introdus o parola invalida!", http.StatusBadRequest)
+			pageData.PageError = append(pageData.PageError, Error{
+				ErrorCode:    1,
+				ErrorMessage: fmt.Sprintf("Invalid password!"),
+			})
+			err = tmpl.Execute(w, pageData)
+			if err != nil {
+				log.Print(err)
+			}
 			log.Printf("%s attempted to enter an illegal password", r.RemoteAddr)
 			return
 		}
@@ -116,7 +161,16 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		var hashedpassword string
 		err = row.Scan(&id, &hashedpassword)
 		if err != nil {
-
+			log.Print(err)
+			pageData.PageError = append(pageData.PageError, Error{
+				ErrorCode:    1,
+				ErrorMessage: fmt.Sprintf("The username %s could not be found!", username),
+			})
+			err = tmpl.Execute(w, pageData)
+			if err != nil {
+				log.Print(err)
+			}
+			return
 		}
 		/*for rows.Next() {
 			err := rows.Scan(&id, &hashedpassword)
@@ -140,5 +194,9 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		} */
 		// TODO: Incorrect password logic
 	}
-	tmpl.Execute(w, pageData)
+	err = tmpl.Execute(w, pageData)
+	if err != nil {
+		log.Print(err)
+	}
+	return
 }
