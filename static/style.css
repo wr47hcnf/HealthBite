@@ -1,29 +1,89 @@
-/* navbar background color */
-.navbar-custom {
-    background-color: #119DA4;
+  /* navbar background color */
+  .navbar-custom {
+    background-color: #339966; /* Primary Color */
   }
 
   /* navbar text color */
   .navbar-custom .navbar-text {
-    color: #fff;
+    color: #fff; /* White */
   }
 
   /* search text box background color */
   .search-textbox {
-    background-color: #fff;
-    color: #13505B;
-    border-color: #13505B;
+    background-color: #fff; /* White */
+    color: #339966; /* Primary Color */
+    border-color: #339966; /* Primary Color */
   }
 
   /* search button background color */
   .search-button {
-    background-color: #0C7489;
-    border-color: #0C7489;
-    color: #fff;
+    background-color: #FF6347; /* Secondary Color 1 */
+    border-color: #FF6347; /* Secondary Color 1 */
+    color: #fff; /* White */
   }
 
   /* search button hover color */
   .search-button:hover {
-    background-color: #13505B;
-    border-color: #13505B;
+    background-color: #FFA07A; /* Accent Color 2 */
+    border-color: #FFA07A; /* Accent Color 2 */
+  }
+  
+  /* Customize the background color */
+  body {
+    background-color: #F5F5F5; /* Neutral Color 1 */
+  }
+
+  /* Customize the form background color */
+  .form-container {
+    background-color: #fff; /* Neutral Color 2 */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Customize the form text color */
+  .form-label {
+    color: #339966; /* Primary Color */
+  }
+
+  /* Customize the form button color */
+  .btn-login {
+    background-color: #339966; /* Primary Color */
+    border-color: #339966; /* Primary Color */
+  }
+
+  /* Customize the form button hover color */
+  .btn-login:hover {
+    background-color: #FF6347; /* Secondary Color 1 */
+    border-color: #FF6347; /* Secondary Color 1 */
+  }
+
+  /* Customize the background color */
+  body {
+    background-color: #F5F5F5; /* Neutral Color 1 */
+  }
+
+  /* Customize the form background color */
+  .form-container {
+    background-color: #fff; /* Neutral Color 2 */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Customize the form text color */
+  .form-label {
+    color: #339966; /* Primary Color */
+  }
+
+  /* Customize the form button color */
+  .btn-register {
+    background-color: #339966; /* Primary Color */
+    border-color: #339966; /* Primary Color */
+  }
+
+  /* Customize the form button hover color */
+  .btn-register:hover {
+    background-color: #FF6347; /* Secondary Color 1 */
+    border-color: #FF6347; /* Secondary Color 1 */
   }
