@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"regexp"
+	"time"
 )
 
 func registerUser(w http.ResponseWriter, r *http.Request) {
@@ -88,13 +89,25 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		fmt.Fprintf(w, "User ID:%s\nSalted password: %s\n", userID, hashedpassword)
+		pageData.PageError = append(pageData.PageError, Error{
+			ErrorCode: 4,
+			ErrorMessage: fmt.Sprintf(
+				"Succesfully created account %s, redirecting to the login page shortly...", username),
+		})
+		log.Printf("Created account %s! User ID:%s\nSalted password: %s\n", username, userID, hashedpassword)
+		err = tmpl.Execute(w, pageData)
+		if err != nil {
+			log.Print(err)
+		}
+		time.Sleep(5 * time.Second)
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
 	}
-
 	err = tmpl.Execute(w, pageData)
 	if err != nil {
 		log.Print(err)
 	}
+	return
 }
 
 func loginUser(w http.ResponseWriter, r *http.Request) {
@@ -172,31 +185,31 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 			}
 			return
 		}
-		/*for rows.Next() {
-			err := rows.Scan(&id, &hashedpassword)
+
+		err = bcrypt.CompareHashAndPassword([]byte(hashedpassword), []byte(password))
+		if err != nil {
+			log.Print(err)
+			pageData.PageError = append(pageData.PageError, Error{
+				ErrorCode:    1,
+				ErrorMessage: fmt.Sprintf("Invalid password for username %s", username),
+			})
+			err = tmpl.Execute(w, pageData)
 			if err != nil {
-				http.Error(w, "S-a intampinat o problema in citirea bazei de date", http.StatusInternalServerError)
-				log.Fatal("Failed to read the login database: ", err)
+				log.Print(err)
 			}
-			if bcrypt.CompareHashAndPassword([]byte(hashedpassword), []byte(password)) == nil {
-				expiration := time.Now().Add(24 * time.Hour)
-				cookie := http.Cookie{
-					Name:     "session_cookie",
-					Value:    fmt.Sprint(id),
-					Expires:  expiration,
-					Path:     "/",
-					Secure:   true,
-					HttpOnly: true,
-				}
-				http.SetCookie(w, &cookie)
-				http.Redirect(w, r, "/", http.StatusSeeOther)
-			}
-		} */
-		// TODO: Incorrect password logic
-	}
-	err = tmpl.Execute(w, pageData)
-	if err != nil {
-		log.Print(err)
+			return
+		}
+		expiration := time.Now().Add(24 * time.Hour)
+		cookie := http.Cookie{
+			Name:     "session_cookie",
+			Value:    fmt.Sprint(id),
+			Expires:  expiration,
+			Path:     "/",
+			Secure:   true,
+			HttpOnly: true,
+		}
+		http.SetCookie(w, &cookie)
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 	return
 }
