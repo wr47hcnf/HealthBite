@@ -45,7 +45,7 @@
                   required=""
                 />
               </div>
-              <button type="submit" class="btn btn-success btn-register">
+              <button type="submit" id="submit" class="btn btn-success btn-register">
                 Register
               </button>
             </form>
@@ -53,5 +53,54 @@
         </div>
       </div>
     </div>
+    <div id="alertContainer" class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+    <!-- Bootstrap alerts will be inserted here dynamically -->
+</div>
+
+<script>
+document.getElementById("registrationForm").addEventListener("submit", function(event) {
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+
+    var usernamePattern = /^[a-zA-Z0-9_]{3,20}$/;
+    var passwordPattern = /^.{6,30}$/;
+
+    var alertContainer = document.getElementById("alertContainer");
+
+    if (!usernamePattern.test(username)) {
+        displayAlert("Username must contain only letters, numbers, or underscores (_) and be between 3 to 20 characters long.", "danger");
+        event.preventDefault();
+        return;
+    }
+
+    if (!passwordPattern.test(password)) {
+        displayAlert("Password must be between 6 to 30 characters long.", "danger");
+        event.preventDefault();
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        displayAlert("Passwords do not match.", "danger");
+        event.preventDefault();
+        return;
+    }
+});
+
+function displayAlert(message, type) {
+    var alertDiv = document.createElement("div");
+    alertDiv.classList.add("alert", "alert-" + type, "alert-dismissible", "fade", "show");
+    alertDiv.setAttribute("role", "alert");
+    alertDiv.innerHTML = `
+        <strong>${type.charAt(0).toUpperCase() + type.slice(1)}!</strong> ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    document.getElementById("alertContainer").appendChild(alertDiv);
+    setTimeout(function() {
+        alertDiv.remove();
+    }, 5000); // Remove the alert after 5 seconds
+}
+</script>
+
   </body>
 </html>
