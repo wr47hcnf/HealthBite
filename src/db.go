@@ -10,7 +10,7 @@ import (
 var Db *sql.DB
 
 const (
-	host     = "localhost"
+	host     = "172.31.26.63"
 	port     = 5432
 	user     = "healthbite"
 	password = "healthbite"
