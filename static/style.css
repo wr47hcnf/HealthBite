@@ -1,28 +1,28 @@
-  /* navbar background color */
+  /* Customize the navbar background color */
   .navbar-custom {
     background-color: #339966; /* Primary Color */
   }
 
-  /* navbar text color */
+  /* Customize the navbar text color */
   .navbar-custom .navbar-text {
     color: #fff; /* White */
   }
 
-  /* search text box background color */
+  /* Customize the search text box background color */
   .search-textbox {
     background-color: #fff; /* White */
     color: #339966; /* Primary Color */
     border-color: #339966; /* Primary Color */
   }
 
-  /* search button background color */
+  /* Customize the search button background color */
   .search-button {
     background-color: #FF6347; /* Secondary Color 1 */
     border-color: #FF6347; /* Secondary Color 1 */
     color: #fff; /* White */
   }
 
-  /* search button hover color */
+  /* Customize the search button hover color */
   .search-button:hover {
     background-color: #FFA07A; /* Accent Color 2 */
     border-color: #FFA07A; /* Accent Color 2 */
@@ -86,4 +86,22 @@
   .btn-register:hover {
     background-color: #FF6347; /* Secondary Color 1 */
     border-color: #FF6347; /* Secondary Color 1 */
+  }
+  
+  /* Customize the footer background color */
+  .footer {
+    background-color: #339966; /* Primary Color */
+    color: white;
+    padding: 20px 0;
+  }
+
+  /* Customize the footer link color */
+  .footer a {
+    color: white;
+    text-decoration: none;
+  }
+
+  /* Customize the footer link hover color */
+  .footer a:hover {
+    color: #FF6347; /* Secondary Color 1 */
   }
