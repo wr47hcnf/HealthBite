@@ -111,3 +111,31 @@
   .footer a:hover {
     color: #FF6347; /* Secondary Color 1 */
   }
+  
+  /* Customize the carousel indicators color */
+  .carousel-indicators li {
+    background-color: #339966; /* Primary Color */
+  }
+
+  /* Customize the carousel control buttons color */
+  .carousel-control-prev, .carousel-control-next {
+    color: #339966; /* Primary Color */
+  }
+
+  /* Customize the carousel active slide indicator color */
+  .carousel-item.active {
+    background-color: #F5F5F5; /* Neutral Color 1 */
+  }
+
+  /* Customize the carousel caption text color */
+  .carousel-caption {
+    color: #13505B; /* Secondary Color 2 */
+    text-align: center;
+  }
+
+  /* Customize the carousel item height and width */
+  .carousel-item img {
+    max-height: 600px; /* Adjust as needed */
+    max-width: 100%;
+    object-fit: cover;
+  }
