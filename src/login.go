@@ -113,7 +113,7 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 func loginUser(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("static/login.tmpl", "static/header.tmpl", "static/navbar.tmpl", "static/error.tmpl"))
 	pageData := PageData{
-		PageTitle: "Register",
+		PageTitle: "Login",
 	}
 	cookie, err := r.Cookie("session_cookie")
 	if err == nil {
@@ -210,6 +210,10 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		}
 		http.SetCookie(w, &cookie)
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+	err = tmpl.Execute(w, pageData)
+	if err != nil {
+		log.Print(err)
 	}
 	return
 }
