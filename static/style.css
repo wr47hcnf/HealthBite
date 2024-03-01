@@ -1,3 +1,8 @@
+  /* Customize the background color */
+  body {
+    background-color: #F5F5F5; /* Neutral Color 1 */
+  }
+
   /* Customize the navbar background color */
   .navbar-custom {
     background-color: #339966; /* Primary Color */
@@ -28,11 +33,6 @@
     border-color: #FFA07A; /* Accent Color 2 */
   }
   
-  /* Customize the background color */
-  body {
-    background-color: #F5F5F5; /* Neutral Color 1 */
-  }
-
   /* Customize the form background color */
   .form-container {
     background-color: #fff; /* Neutral Color 2 */
@@ -56,11 +56,6 @@
   .btn-login:hover {
     background-color: #FF6347; /* Secondary Color 1 */
     border-color: #FF6347; /* Secondary Color 1 */
-  }
-
-  /* Customize the background color */
-  body {
-    background-color: #F5F5F5; /* Neutral Color 1 */
   }
 
   /* Customize the form background color */
@@ -97,7 +92,7 @@
     /* Your content's styles */
   }
   .footer {
-    position: relative;
+    position: fixed;
     bottom: 0;
     width: 100%;
     background-color: #339966; /* Primary Color */
@@ -116,4 +111,11 @@
   .carousel-item img {
     height: 70vh; /* Set the height to half of the viewport height */
     object-fit: cover; /* Ensure the image covers the entire slide */
+  }
+  /* Add your custom styles here */
+  .profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
   }
