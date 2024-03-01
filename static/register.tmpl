@@ -22,7 +22,7 @@
                 />
                 <div class="invalid-feedback">
                   Please choose a username
-              </div>
+                </div>
               <div class="mb-3">
                 <label for="password" class="form-label"
                   >New Password:</label
@@ -34,6 +34,9 @@
                   name="password"
                   required=""
                 />
+                <div class="invalid-feedback">
+                  Please choose a password
+                </div>
               </div>
               <div class="mb-3">
                 <label for="confirmPassword" class="form-label"
@@ -46,6 +49,9 @@
                   name="confirmPassword"
                   required=""
                 />
+                <div class="invalid-feedback" id='passwordMatchError'>
+                  Passwords do not match
+                </div>
               </div>
               <button type="submit" id="submit" class="btn btn-success btn-register">
                 Register
@@ -66,17 +72,27 @@
   // Fetch all the forms we want to apply custom Bootstrap validation styles to
   const forms = document.querySelectorAll('.needs-validation')
 
+  //Function to see if passwords match
+  function passwordsMatch() {
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      return password === confirmPassword;
+    }
+
   // Loop over them and prevent submission
   Array.from(forms).forEach(form => {
     form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
+      if (!form.checkValidity()||!passwordsMatch()) {
         event.preventDefault()
         event.stopPropagation()
+        document.getElementById('passwordMatchError').style.display = 'block';
       }
 
       form.classList.add('was-validated')
     }, false)
   })
+    
 })()
 </script>
 {{template "footer"}}
