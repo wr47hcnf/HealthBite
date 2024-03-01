@@ -112,30 +112,8 @@
     color: #FF6347; /* Secondary Color 1 */
   }
   
-  /* Customize the carousel indicators color */
-  .carousel-indicators button{
-    background-color: #339966; /* Primary Color */
-  }
-
-  /* Customize the carousel control buttons color */
-  .carousel-control-prev, .carousel-control-next {
-    color: #339966; /* Primary Color */
-  }
-
-  /* Customize the carousel active slide indicator color */
-  .carousel-item.active {
-    background-color: #F5F5F5; /* Neutral Color 1 */
-  }
-
-  /* Customize the carousel caption text color */
-  .carousel-caption {
-    color: #13505B; /* Secondary Color 2 */
-    text-align: center;
-  }
-
-  /* Customize the carousel item height and width */
+  /* Custom CSS to adjust carousel height */
   .carousel-item img {
-    max-height: 18em; /* Adjust as needed */
-    max-width: 100%;
-    object-fit: cover;
+    height: 70vh; /* Set the height to half of the viewport height */
+    object-fit: cover; /* Ensure the image covers the entire slide */
   }
