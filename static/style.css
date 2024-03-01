@@ -113,7 +113,7 @@
   }
   
   /* Customize the carousel indicators color */
-  .carousel-indicators li {
+  .carousel-indicators button{
     background-color: #339966; /* Primary Color */
   }
 
