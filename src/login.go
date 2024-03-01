@@ -12,7 +12,13 @@ import (
 )
 
 func registerUser(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("static/register.tmpl", "static/error.tmpl", "static/header.tmpl", "static/navbar.tmpl"))
+	tmpl := template.Must(template.ParseFiles(
+		"static/register.tmpl",
+		"static/error.tmpl",
+		"static/header.tmpl",
+		"static/navbar.tmpl",
+		"static/footer.tmpl",
+	))
 	pageData := PageData{
 		PageTitle: "Register",
 	}
@@ -111,7 +117,13 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginUser(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("static/login.tmpl", "static/header.tmpl", "static/navbar.tmpl", "static/error.tmpl"))
+	tmpl := template.Must(template.ParseFiles(
+		"static/login.tmpl",
+		"static/header.tmpl",
+		"static/navbar.tmpl",
+		"static/error.tmpl",
+		"static/footer.tmpl",
+	))
 	pageData := PageData{
 		PageTitle: "Login",
 	}

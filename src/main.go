@@ -31,7 +31,12 @@ func main() {
 			}
 		}
 
-		tmpl, err := template.ParseFiles("static/index.tmpl", "static/header.tmpl", "static/navbar.tmpl")
+		tmpl, err := template.ParseFiles(
+			"static/index.tmpl",
+			"static/header.tmpl",
+			"static/navbar.tmpl",
+			"static/footer.tmpl",
+		)
 
 		if err != nil {
 			log.Print("Failed to parse files: ", err)
