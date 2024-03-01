@@ -8,7 +8,7 @@
         <div class="col-lg-6">
           <div class="form-container">
             <h1 class="mb-4 text-center">Register</h1>
-            <form action="/register" method="post">
+            <form class="needs-validation" action="/register" method="post" novalidate>
               <div class="mb-3">
                 <label for="username" class="form-label"
                   >New Username:</label
@@ -20,6 +20,8 @@
                   name="username"
                   required=""
                 />
+                <div class="invalid-feedback">
+                  Please choose a username
               </div>
               <div class="mb-3">
                 <label for="password" class="form-label"
@@ -58,49 +60,24 @@
 </div>
 
 <script>
-document.getElementById("registrationForm").addEventListener("submit", function(event) {
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
-    var confirmPassword = document.getElementById("confirmPassword").value;
+(() => {
+  'use strict'
 
-    var usernamePattern = /^[a-zA-Z0-9_]{3,20}$/;
-    var passwordPattern = /^.{6,30}$/;
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
 
-    var alertContainer = document.getElementById("alertContainer");
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
 
-    if (!usernamePattern.test(username)) {
-        displayAlert("Username must contain only letters, numbers, or underscores (_) and be between 3 to 20 characters long.", "danger");
-        event.preventDefault();
-        return;
-    }
-
-    if (!passwordPattern.test(password)) {
-        displayAlert("Password must be between 6 to 30 characters long.", "danger");
-        event.preventDefault();
-        return;
-    }
-
-    if (password !== confirmPassword) {
-        displayAlert("Passwords do not match.", "danger");
-        event.preventDefault();
-        return;
-    }
-});
-
-function displayAlert(message, type) {
-    var alertDiv = document.createElement("div");
-    alertDiv.classList.add("alert", "alert-" + type, "alert-dismissible", "fade", "show");
-    alertDiv.setAttribute("role", "alert");
-    alertDiv.innerHTML = `
-        <strong>${type.charAt(0).toUpperCase() + type.slice(1)}!</strong> ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    `;
-    document.getElementById("alertContainer").appendChild(alertDiv);
-    setTimeout(function() {
-        alertDiv.remove();
-    }, 5000); // Remove the alert after 5 seconds
-}
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
 </script>
+{{template "footer"}}
 
-  </body>
-</html>
