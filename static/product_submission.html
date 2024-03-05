@@ -44,39 +44,34 @@
         <!-- Description Header -->
         <h3 class="description-header">Description</h3>
     
-        <!-- Form Section 1: Brand and Product Name -->
-        <form class="needs-validation" novalidate>
+        <form id="productForm" class="needs-validation" novalidate>
             <div class="form-row">
-                <div class="col-md-6 mb-3">
-                    <label for="productName">Product Name</label>
-                    <input type="text" class="form-control form-custom-border" id="productName" placeholder="Product Name" required>
-                </div>
                 <div class="col-md-6 mb-3">
                     <label for="brand">Brand</label>
                     <input type="text" class="form-control form-custom-border" id="brand" placeholder="Brand" required>
                 </div>
+                <div class="col-md-6 mb-3">
+                    <label for="productName">Product Name</label>
+                    <input type="text" class="form-control form-custom-border" id="productName" placeholder="Product Name" required>
+                </div>
             </div>
-        </form>
+
     
         <!-- Form Section 2: Weight -->
-        <form class="needs-validation" novalidate>
-            <div class="form-row">
-                <div class="col-md-4 mb-3">
-                    <label for="weight">Weight</label>
-                    <input type="text" class="form-control form-custom-border" id="weight" placeholder="Weight" required>
-                </div>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="weight">Weight</label>
+                <input type="text" class="form-control form-custom-border" id="weight" placeholder="Weight" required>
             </div>
-        </form>
-    
+        </div>
+
         <!-- Form Section 3: Price -->
-        <form class="needs-validation" novalidate>
-            <div class="form-row">
-                <div class="col-md-4 mb-3">
-                    <label for="price">Price</label>
-                    <input type="text" class="form-control form-custom-border" id="price" placeholder="Price" required>
-                </div>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="price">Price</label>
+                <input type="text" class="form-control form-custom-border" id="price" placeholder="Price" required>
             </div>
-        </form>
+        </div>
 
         <!-- Summary Paragraph -->
         <p id="summaryParagraph" class="mt-4 mb-4"></p>
@@ -159,6 +154,16 @@
         }, false);
     });
 })();
+document.getElementById('submitButton').addEventListener('click', function() {
+    const form = document.getElementById('productForm');
+    if (form.checkValidity()) {
+        // Form is valid, proceed with submission
+        form.submit();
+    } else {
+        // Form is invalid, show validation errors
+        form.classList.add('was-validated');
+    }
+});
 </script>
 
 </body>
