@@ -5,10 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
-    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!--style.css-->
-<link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
@@ -22,13 +20,28 @@
                     <div class="card-body text-center">
                         <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-picture mb-3">
                         <h4 class="card-title">John</h4>
-                        <p class="card-text">I am an young man with big dreams</p>
+                        <p class="card-text">I am a young man with big dreams</p>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Email:</strong> johndoesnotexist@gmail.com</li>
                         <li class="list-group-item"><strong>Location:</strong> Bacau, Romania</li>
                         <li class="list-group-item"><strong>Interests:</strong> Traveling, Photography, Reading</li>
                     </ul>
+                    <!-- Profile Settings Section -->
+                    <div class="card-body">
+                        <h5 class="card-title">Profile Settings</h5>
+                        <form id="profile-settings-form">
+                            <div class="form-group">
+                                <label for="dietaryPreferences">Dietary Preferences</label>
+                                <input type="text" class="form-control" id="dietaryPreferences" placeholder="e.g., Vegan, Gluten-free" oninput="checkForChanges()">
+                            </div>
+                            <div class="form-group">
+                                <label for="allergens">Allergens</label>
+                                <input type="text" class="form-control" id="allergens" placeholder="e.g., Peanuts, Shellfish" oninput="checkForChanges()">
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="updateProfileBtn" disabled>Update Profile</button>
+                        </form>
+                    </div>
                     <div class="card-footer text-muted">
                         Joined on January 1, 2020
                     </div>
@@ -37,9 +50,25 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
+    <script>
+        let initialDietaryPreferences = ''; // Placeholder for actual fetch from the database
+        let initialAllergens = ''; // Placeholder for actual fetch from the database
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Placeholder: Actual values should be fetched from the server
+        });
+
+        function checkForChanges() {
+            const dietaryPreferences = document.getElementById('dietaryPreferences').value;
+            const allergens = document.getElementById('allergens').value;
+
+            const hasChanges = dietaryPreferences !== initialDietaryPreferences || allergens !== initialAllergens;
+            document.getElementById('updateProfileBtn').disabled = !hasChanges;
+        }
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
