@@ -11,6 +11,7 @@ func main() {
 
 	http.HandleFunc("/register", registerUser)
 	http.HandleFunc("/login", loginUser)
+	http.HandleFunc("/profile", profilePage)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 

@@ -37,3 +37,18 @@ func parseCookie(cookie *http.Cookie, userdata *User) error {
 	}
 	return nil
 }
+
+func profilePage(w http.ResponseFinder, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles(
+		"static/profile_page.tmpl",
+		"static/error.tmpl",
+		"static/header.tmpl",
+		"static/navbar.tmpl",
+		"static/footer.tmpl",
+	))
+	pageData := PageData{
+		PageTitle: "Register",
+	}
+	cookie, err := r.Cookie("session_cookie")
+	tmpl.Execute(w, pageData)
+}
