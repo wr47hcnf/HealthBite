@@ -119,3 +119,80 @@
     border-radius: 50%;
     object-fit: cover;
   }
+  
+  /* Customize the background color */
+  body {
+    background-color: #F5F5F5; /* Neutral Color 1 */
+  }
+
+  /* Customize the headline color */
+  .headline {
+    color: #119DA4; /* Primary Color */
+    text-align: center;
+    padding: 100px 0; /* Adjust spacing as needed */
+  }
+
+  /* Make the image square */
+  .square-image {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: cover;
+    border-radius: 10px; /* Rounded corners */
+  }
+
+  /* Customize the price */
+  .price {
+    font-size: 36px; /* Adjust font size as needed */
+    font-weight: bold; /* Make the price bold */
+    color: #000; /* Set the color to black */
+  }
+
+  /* Customize the carousel control arrows */
+    .carousel-control-prev,
+  .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5%;
+    height: auto;
+    z-index: 10;
+  }
+
+  .carousel-control-prev {
+    left: -5%;
+  }
+
+  .carousel-control-next {
+    right: -5%;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    background-color: #000; /* Set the color to black */
+  }
+  
+  :root {
+      --green-color: #339966;
+      --red-color: #FF6347;
+  }
+
+  .btn-custom {
+      background-color: var(--green-color);
+      border-color: var(--green-color);
+      color: #fff;
+  }
+
+  .btn-custom:hover {
+      background-color: var(--red-color);
+      border-color: var(--red-color);
+  }
+
+  .form-custom-border {
+      border-color: var(--green-color);
+  }
+
+  .nutritional-label, .description-header {
+      font-weight: bold;
+      color: var(--green-color);
+  }
