@@ -1,6 +1,8 @@
   /* Customize the background color */
   body {
     background-color: #F5F5F5; /* Neutral Color 1 */
+      display: flex;
+      flex-direction: column;
   }
 
   /* Customize the navbar background color */
@@ -88,8 +90,7 @@
     margin: 0;
   }
   .content {
-    min-height: calc(100% - 120px); /* Adjust based on the footer height */
-    /* Your content's styles */
+    flex: 1;
   }
   .footer {
     position: absolute;
@@ -118,11 +119,6 @@
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-  }
-  
-  /* Customize the background color */
-  body {
-    background-color: #F5F5F5; /* Neutral Color 1 */
   }
 
   /* Customize the headline color */
