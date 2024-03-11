@@ -24,7 +24,10 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 	}
 	cookie, err := r.Cookie("session_cookie")
 	if err == nil {
-		parseCookie(cookie, &pageData.UserInfo)
+		err = parseCookie(cookie, &pageData.UserInfo)
+		if err != nil {
+			log.Printf("Could not parse cookie for %s", r.RemoteAddr)
+		}
 		pageData.PageError = append(pageData.PageError, Error{
 			ErrorCode:    3,
 			ErrorMessage: fmt.Sprintf("You are already logged in as %s", pageData.UserInfo.Username),

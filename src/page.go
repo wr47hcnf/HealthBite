@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/google/uuid"
+	"html/template"
+	"log"
 	"net/http"
 )
 
@@ -38,7 +40,7 @@ func parseCookie(cookie *http.Cookie, userdata *User) error {
 	return nil
 }
 
-func profilePage(w http.ResponseFinder, r *http.Request) {
+func profilePage(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(
 		"static/profile_page.tmpl",
 		"static/error.tmpl",
@@ -47,8 +49,21 @@ func profilePage(w http.ResponseFinder, r *http.Request) {
 		"static/footer.tmpl",
 	))
 	pageData := PageData{
-		PageTitle: "Register",
+		PageTitle: "Profile",
 	}
 	cookie, err := r.Cookie("session_cookie")
+	if err != nil {
+		pageData.PageError = append(pageData.PageError, Error{
+			ErrorCode:    3,
+			ErrorMessage: "You must be logged in!",
+		})
+		tmpl.Execute(w, pageData)
+		return
+	}
+	err = parseCookie(cookie, &pageData.UserInfo)
+	if err != nil {
+		log.Printf("Failed to parse cookie for %s", r.RemoteAddr)
+	}
 	tmpl.Execute(w, pageData)
+	return
 }

@@ -19,3 +19,9 @@ type PageData struct {
 	UserInfo  User
 	PageError []Error
 }
+
+type UserData struct {
+	FirstName string
+	LastName  string
+	Age       int
+}
