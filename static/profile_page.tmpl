@@ -4,59 +4,96 @@
 {{template "error" .}}
 {{end}}
     <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="text-center">Welcome to your account</h3>
-                    </div>
-                    <div class="card-body text-center">
-                        <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-picture mb-3">
-                        <h4 class="card-title">John</h4>
-                        <p class="card-text">I am a young man with big dreams</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Email:</strong> johndoesnotexist@gmail.com</li>
-                        <li class="list-group-item"><strong>Location:</strong> Bacau, Romania</li>
-                        <li class="list-group-item"><strong>Interests:</strong> Traveling, Photography, Reading</li>
-                    </ul>
-                    <!-- Profile Settings Section -->
-                    <div class="card-body">
-                        <h5 class="card-title">Profile Settings</h5>
-                        <form id="profile-settings-form">
-                            <div class="form-group">
-                                <label for="dietaryPreferences">Dietary Preferences</label>
-                                <input type="text" class="form-control" id="dietaryPreferences" placeholder="e.g., Vegan, Gluten-free" oninput="checkForChanges()">
-                            </div>
-                            <div class="form-group">
-                                <label for="allergens">Allergens</label>
-                                <input type="text" class="form-control" id="allergens" placeholder="e.g., Peanuts, Shellfish" oninput="checkForChanges()">
-                            </div>
-                            <button type="submit" class="btn btn-primary" id="updateProfileBtn" disabled>Update Profile</button>
-                        </form>
-                    </div>
-                    <div class="card-footer text-muted">
-                        Joined on January 1, 2020
-                    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Welcome to your account</h3>
+                </div>
+                <div class="card-body text-center">
+                    <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-picture mb-3">
+                    <h4 class="card-title">John</h4>
+                    <p class="card-text">I am a young man with big dreams</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Email:</strong> johndoesnotexist@gmail.com</li>
+                    <li class="list-group-item"><strong>Location:</strong> Bacau, Romania</li>
+                    <li class="list-group-item"><strong>Interests:</strong> Traveling, Photography, Reading</li>
+                </ul>
+                <!-- Profile Settings Section -->
+                <div class="card-body">
+                    <h5 class="card-title">Profile Settings</h5>
+                    <form id="profile-settings-form">
+                        <div class="form-group">
+                            <label for="dietaryPreferences">Dietary Preferences</label>
+                            <input type="text" class="form-control" id="dietaryPreferences" placeholder="e.g., Vegan, Gluten-free" oninput="checkForChanges()">
+                        </div>
+                        <div class="form-group">
+                            <label for="allergens">Allergens</label>
+                            <div id="allergens-list"></div> <!-- Container for allergen checkboxes -->
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="updateProfileBtn" disabled>Update Profile</button>
+                    </form>
+                </div>
+                <div class="card-footer text-muted">
+                    Joined on January 1, 2020
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        let initialDietaryPreferences = ''; // Placeholder for actual fetch from the database
-        let initialAllergens = ''; // Placeholder for actual fetch from the database
+<script>
+    let initialDietaryPreferences = '';
+    let initialAllergens = [];
 
-        document.addEventListener("DOMContentLoaded", function() {
-            // Placeholder: Actual values should be fetched from the server
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch('https://world.openfoodfacts.org/allergens.json')
+            .then(response => response.json())
+            .then(data => {
+                // Extract allergens from the API response
+                initialAllergens = Object.keys(data.allergens);
+                populateAllergensList(initialAllergens);
+            })
+            .catch(error => console.error('Error fetching allergens:', error));
+    });
+
+    function populateAllergensList(allergens) {
+        const allergensListDiv = document.getElementById('allergens-list');
+
+        allergens.forEach(allergen => {
+            const checkboxDiv = document.createElement('div');
+            checkboxDiv.classList.add('form-check');
+
+            const checkboxInput = document.createElement('input');
+            checkboxInput.type = 'checkbox';
+            checkboxInput.classList.add('form-check-input');
+            checkboxInput.id = allergen.toLowerCase().replace(/\s+/g, '-');
+
+            const checkboxLabel = document.createElement('label');
+            checkboxLabel.classList.add('form-check-label');
+            checkboxLabel.setAttribute('for', checkboxInput.id);
+            checkboxLabel.textContent = allergen;
+
+            checkboxDiv.appendChild(checkboxInput);
+            checkboxDiv.appendChild(checkboxLabel);
+
+            allergensListDiv.appendChild(checkboxDiv);
         });
+    }
 
-        function checkForChanges() {
-            const dietaryPreferences = document.getElementById('dietaryPreferences').value;
-            const allergens = document.getElementById('allergens').value;
+    function checkForChanges() {
+        // Your existing checkForChanges function
+    }
 
-            const hasChanges = dietaryPreferences !== initialDietaryPreferences || allergens !== initialAllergens;
-            document.getElementById('updateProfileBtn').disabled = !hasChanges;
-        }
-    </script>
+function checkForChanges() {
+    const dietaryPreferences = document.getElementById('dietaryPreferences').value;
+    const allergens = document.getElementById('allergens').value;
+
+    const hasChanges = dietaryPreferences !== initialDietaryPreferences || allergens !== initialAllergens.join(', ');
+    document.getElementById('updateProfileBtn').disabled = !hasChanges;
+}
+
+</script>
+
 {{template "footer"}}
