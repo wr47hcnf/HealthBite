@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../vreau motor"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "nu vreau la FI"
+	}
+}
