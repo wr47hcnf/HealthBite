@@ -12,8 +12,8 @@
                 </div>
                 <div class="card-body text-center">
                     <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-picture mb-3">
-                    <h4 class="card-title">John</h4>
-                    <p class="card-text">I am a young man with big dreams</p>
+                    <h4 class="card-title" id="title">John</h4>
+                    <p class="card-text" id="text">I am a young man with big dreams</p>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><strong>Email:</strong> johndoesnotexist@gmail.com</li>
@@ -32,7 +32,8 @@
                             <label for="allergens">Allergens</label>
                             <div id="allergens-list"></div> <!-- Container for allergen checkboxes -->
                         </div>
-                        <button type="submit" class="btn btn-primary" id="updateProfileBtn" disabled>Update Profile</button>
+                        <button type="submit" class="btn btn-primary" id="updateProfileBtn">Update Profile</button>
+                        <button type="reset" class="btn btn-primary" id="updateProfileBtn" onclick="editChanghes()">Edit Profile</button>
                     </form>
                 </div>
                 <div class="card-footer text-muted">
@@ -93,7 +94,14 @@ function checkForChanges() {
     const hasChanges = dietaryPreferences !== initialDietaryPreferences || allergens !== initialAllergens.join(', ');
     document.getElementById('updateProfileBtn').disabled = !hasChanges;
 }
+function editChanghes() {
+    const title = document.getElementById("title");
+    const inputTitle = document.createElement("input");
 
+    inputTitle.value = title.textContent;
+
+    title.parentNode.replaceChild(inputTitle, title);
+}
 </script>
 
 {{template "footer"}}
