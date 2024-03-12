@@ -86,6 +86,22 @@ func dbInit() error {
 		log.Println("Succesfully initialized 'userdata' table")
 	}
 
+	// Check 'nutritional_info' data type
+	tableExists = false
+	err = Db.QueryRow("SELECT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'nutritional_info')").Scan(&tableExists)
+	if tableExists == false {
+		_, err = Db.Exec(`
+			CREATE TYPE nutritional_info AS (
+    				name TEXT,
+    				value TEXT
+			)
+		`)
+		if err != nil {
+			log.Fatal("Failed to initialize 'nutritional_info' data type ", err)
+		}
+		log.Println("Initialized nutritional_info data type")
+	}
+
 	// Check 'productdata'
 	tableExists = false
 	err = Db.QueryRow("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'productdata')").Scan(&tableExists)
@@ -98,6 +114,8 @@ func dbInit() error {
 				brand VARCHAR(20),
 				pic VARCHAR(50),
 				weight VARCHAR(10),
+				calories INT,
+				nutritional_info nutritional_info[],
 				additives VARCHAR(20)[],
 				allergens VARCHAR(20)[]
 			)
@@ -143,22 +161,17 @@ func dbInit() error {
 		if tableExists == false {
 			_, err = Db.Exec(`
 				CREATE TABLE productreview (
-					prodid UUID KEY,
 					userid UUID KEY,
-					message VARCHAR(200),
-					score INT,
-					date DATE,
-					FOREIGN KEY (prodid) REFERENCES productdata(prodid),
-					FOREIGN KEY (userid) REFERENCES users(id)
+					allergen VARCHAR(20)
 				)
 			`)
 
 			if err != nil {
-				log.Fatal("Failed to initialize 'productreview' table", err)
+				log.Fatal("Failed to initialize 'userallergens' table", err)
 				return err
 			}
 
-			log.Println("Succesfully initialized 'productreview' table")
+			log.Println("Succesfully initialized 'userallergens' table")
 		}
 	*/
 	return nil
