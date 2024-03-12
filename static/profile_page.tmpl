@@ -16,9 +16,9 @@
                     <p class="card-text" id="text">I am a young man with big dreams</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Email:</strong> johndoesnotexist@gmail.com</li>
-                    <li class="list-group-item"><strong>Location:</strong> Bacau, Romania</li>
-                    <li class="list-group-item"><strong>Interests:</strong> Traveling, Photography, Reading</li>
+                    <li class="list-group-item"><strong>Email:</strong><p id="EditMail">johndoesnotexist@gmail.com</p></li>
+                    <li class="list-group-item"><strong>Location:</strong><p id="EditLocation">Bacau, Romania</p></li>
+                    <li class="list-group-item"><strong>Interests:</strong><p id="EditInterests">Traveling, Photography, Reading</p></li>
                 </ul>
                 <!-- Profile Settings Section -->
                 <div class="card-body">
@@ -96,11 +96,34 @@ function checkForChanges() {
 }
 function editChanghes() {
     const title = document.getElementById("title");
+    const text = document.getElementById("text");
+    const mail = document.getElementById("EditMail");
+    const location = document.getElementById("EditLocation");
+    const interests = document.getElementById("EditInterests");
+
     const inputTitle = document.createElement("input");
+    const inputText = document.createElement("input");
+    const inputMail = document.createElement("input");
+    const inputLocation = document.createElement("input");
+    const inputInterests = document.createElement("input");
 
     inputTitle.value = title.textContent;
+    inputText.value = text.textContent;
+    inputMail.value = mail.textContent;
+    inputLocation.value = location.textContent;
+    inputInterests.value = interests.textContent;
 
     title.parentNode.replaceChild(inputTitle, title);
+    text.parentNode.replaceChild(inputText, text);
+    mail.parentNode.replaceChild(inputMail, mail);
+    location.parentNode.replaceChild(inputLocation, location);
+    interests.parentNode.replaceChild(inputInterests, interests);
+
+    inputTitle.className="form-control";
+    inputText.className="form-control";
+    inputMail.className="form-control";
+    inputLocation.className="form-control";
+    inputInterests.className="form-control";
 }
 </script>
 
