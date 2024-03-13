@@ -34,10 +34,7 @@
                             <div class="allergen-buttons d-none">
                             <!-- Allergen buttons will be appended here -->
                             </div>
-                            <form id="allergenForm" action="/" method="post">
                             <input type="hidden" name="selectedAllergens" id="selectedAllergens">
-                            <button type="submit" class="btn btn-primary mt-3">Submit</button>
-                            </form>
                         </div>
                         <button type="submit" class="btn btn-primary" id="updateProfileBtn">Update Profile</button>
                         <button type="reset" class="btn btn-primary" id="updateProfileBtn" onclick="editChanghes()">Edit Profile</button>
@@ -52,48 +49,6 @@
 </div>
 
 <script>
-    let initialDietaryPreferences = '';
-    let initialAllergens = [];
-
-    document.addEventListener("DOMContentLoaded", function() {
-        fetch('https://world.openfoodfacts.org/allergens.json')
-            .then(response => response.json())
-            .then(data => {
-                // Extract allergens from the API response
-                initialAllergens = Object.keys(data.allergens);
-                populateAllergensList(initialAllergens);
-            })
-            .catch(error => console.error('Error fetching allergens:', error));
-    });
-
-    function populateAllergensList(allergens) {
-        const allergensListDiv = document.getElementById('allergens-list');
-
-        allergens.forEach(allergen => {
-            const checkboxDiv = document.createElement('div');
-            checkboxDiv.classList.add('form-check');
-
-            const checkboxInput = document.createElement('input');
-            checkboxInput.type = 'checkbox';
-            checkboxInput.classList.add('form-check-input');
-            checkboxInput.id = allergen.toLowerCase().replace(/\s+/g, '-');
-
-            const checkboxLabel = document.createElement('label');
-            checkboxLabel.classList.add('form-check-label');
-            checkboxLabel.setAttribute('for', checkboxInput.id);
-            checkboxLabel.textContent = allergen;
-
-            checkboxDiv.appendChild(checkboxInput);
-            checkboxDiv.appendChild(checkboxLabel);
-
-            allergensListDiv.appendChild(checkboxDiv);
-        });
-    }
-
-    function checkForChanges() {
-        // Your existing checkForChanges function
-    }
-
 function checkForChanges() {
     const dietaryPreferences = document.getElementById('dietaryPreferences').value;
     const allergens = document.getElementById('allergens').value;
