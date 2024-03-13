@@ -10,14 +10,6 @@ import (
 
 var Db *sql.DB
 
-const (
-	host     = "healthbite-db.c7c68asau12b.eu-north-1.rds.amazonaws.com"
-	port     = 5432
-	user     = "healthbite"
-	password = "healthbite"
-	dbname   = "healthbite"
-)
-
 func dbConnect() error {
 	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s", host, port, user, password, dbname)
 	db, err := sql.Open("postgres", connStr)
@@ -74,10 +66,10 @@ func dbInit() error {
 		_, err = Db.Exec(`
 			CREATE TABLE userdata (
 				uid UUID PRIMARY KEY,
-				fname VARCHAR(10),
-				lname VARCHAR(10),
+				fname VARCHAR(20),
+				lname VARCHAR(20),
 				age INT,
-				profilepic VARCHAR(50),
+				profilepic VARCHAR(80),
 				FOREIGN KEY (uid) REFERENCES users(id)
 			)
 		`)
