@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
 	"html/template"
 	"log"
 	"net/http"
 	"regexp"
 	"time"
+
+	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func registerUser(w http.ResponseWriter, r *http.Request) {
@@ -38,7 +39,7 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			http.Error(w, "Eroare procesare formular inregistrare: ", http.StatusBadRequest)
-			log.Print(fmt.Sprintf("Error parsing registration form for %s: %s ", r.RemoteAddr, err))
+			log.Printf("Error parsing registration form for %s: %s ", r.RemoteAddr, err)
 			return
 		}
 
@@ -48,7 +49,7 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 		if usernameRegex := regexp.MustCompile(`[a-zA-Z0-9_]{3,20}$`); !usernameRegex.MatchString(username) {
 			pageData.PageError = append(pageData.PageError, Error{
 				ErrorCode:    1,
-				ErrorMessage: fmt.Sprintf("Invalid username!"),
+				ErrorMessage: "Invalid username!",
 			})
 			err = tmpl.Execute(w, pageData)
 			if err != nil {
@@ -61,7 +62,7 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 		if passwordRegex := regexp.MustCompile(`.{6,30}$`); !passwordRegex.MatchString(password) {
 			pageData.PageError = append(pageData.PageError, Error{
 				ErrorCode:    1,
-				ErrorMessage: fmt.Sprintf("Invalid password!"),
+				ErrorMessage: "Invalid password!",
 			})
 			err = tmpl.Execute(w, pageData)
 			if err != nil {
@@ -75,20 +76,22 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			http.Error(w, "Cannot process password!", http.StatusInternalServerError)
-			log.Print(fmt.Sprintf("Failed to hash password for session %s", r.RemoteAddr))
+			log.Printf("Failed to hash password for session %s", r.RemoteAddr)
 			return
 		}
 
 		userID, err := uuid.NewRandom()
+		if err != nil {
+			log.Fatal("Failed to generate UUID: ", err)
+		}
 
 		dbexec, err := Db.Exec("INSERT INTO users (id, username, password) VALUES ($1, $2, $3)", userID, username, hashedpassword)
 		log.Print(dbexec)
 
 		if err != nil {
 			pageData.PageError = append(pageData.PageError, Error{
-				ErrorCode: 1,
-				ErrorMessage: fmt.Sprintf(
-					"Credentials cannot be inserted into the database! Perhaps you used a username already in use!"),
+				ErrorCode:    1,
+				ErrorMessage: "Credentials cannot be inserted into the database! Perhaps you used a username already in use!",
 			})
 			err = tmpl.Execute(w, pageData)
 			if err != nil {
@@ -116,7 +119,6 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Print(err)
 	}
-	return
 }
 
 func loginUser(w http.ResponseWriter, r *http.Request) {
@@ -144,13 +146,13 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			pageData.PageError = append(pageData.PageError, Error{
 				ErrorCode:    1,
-				ErrorMessage: fmt.Sprintf("Error parsing registration form!"),
+				ErrorMessage: "Error parsing registration form!",
 			})
 			err = tmpl.Execute(w, pageData)
 			if err != nil {
 				log.Print(err)
 			}
-			log.Print(fmt.Sprintf("Error parsing registration form for %s: %s ", r.RemoteAddr, err))
+			log.Printf("Error parsing registration form for %s: %s ", r.RemoteAddr, err)
 			return
 		}
 
@@ -160,7 +162,7 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		if usernameRegex := regexp.MustCompile(`[a-zA-Z0-9_]{3,20}$`); !usernameRegex.MatchString(username) {
 			pageData.PageError = append(pageData.PageError, Error{
 				ErrorCode:    1,
-				ErrorMessage: fmt.Sprintf("Invalid username!"),
+				ErrorMessage: "Invalid username!",
 			})
 			err = tmpl.Execute(w, pageData)
 			if err != nil {
@@ -173,7 +175,7 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		if passwordRegex := regexp.MustCompile(`.{6,30}$`); !passwordRegex.MatchString(password) {
 			pageData.PageError = append(pageData.PageError, Error{
 				ErrorCode:    1,
-				ErrorMessage: fmt.Sprintf("Invalid password!"),
+				ErrorMessage: "Invalid password!",
 			})
 			err = tmpl.Execute(w, pageData)
 			if err != nil {
@@ -230,5 +232,4 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Print(err)
 	}
-	return
 }

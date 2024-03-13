@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/google/uuid"
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/google/uuid"
 )
 
 func parseCookie(cookie *http.Cookie, userdata *User) error {
@@ -65,5 +66,25 @@ func profilePage(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Failed to parse cookie for %s", r.RemoteAddr)
 	}
 	tmpl.Execute(w, pageData)
-	return
+}
+
+func addProduct(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles(
+		"static/add_product.tmpl",
+		"static/error.tmpl",
+		"static/header.tmpl",
+		"static/navbar.tmpl",
+		"static/footer.tmpl",
+	))
+	pageData := PageData{
+		PageTitle: "Add product",
+	}
+	cookie, err := r.Cookie("session_cookie")
+	if err == nil {
+		err = parseCookie(cookie, &pageData.UserInfo)
+		if err != nil {
+			log.Printf("Failed to parse cookie for %s", r.RemoteAddr)
+		}
+	}
+	tmpl.Execute(w, pageData)
 }

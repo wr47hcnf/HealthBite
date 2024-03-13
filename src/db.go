@@ -3,8 +3,9 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/lib/pq"
 	"log"
+
+	_ "github.com/lib/pq"
 )
 
 var Db *sql.DB
@@ -46,7 +47,7 @@ func dbInit() error {
 		return err
 	}
 
-	if tableExists == false {
+	if !tableExists {
 		_, err = Db.Exec(`
 			CREATE TABLE users (
 				id UUID PRIMARY KEY,
@@ -66,7 +67,10 @@ func dbInit() error {
 	// Check 'userdata'
 	tableExists = false
 	err = Db.QueryRow("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'userdata')").Scan(&tableExists)
-	if tableExists == false {
+	if err != nil {
+		log.Fatal("Failed to query db: ", err)
+	}
+	if !tableExists {
 		_, err = Db.Exec(`
 			CREATE TABLE userdata (
 				uid UUID PRIMARY KEY,
@@ -89,7 +93,10 @@ func dbInit() error {
 	// Check 'nutritional_info' data type
 	tableExists = false
 	err = Db.QueryRow("SELECT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'nutritional_info')").Scan(&tableExists)
-	if tableExists == false {
+	if err != nil {
+		log.Fatal("Failed to query db: ", err)
+	}
+	if !tableExists {
 		_, err = Db.Exec(`
 			CREATE TYPE nutritional_info AS (
     				name TEXT,
@@ -105,7 +112,10 @@ func dbInit() error {
 	// Check 'productdata'
 	tableExists = false
 	err = Db.QueryRow("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'productdata')").Scan(&tableExists)
-	if tableExists == false {
+	if err != nil {
+		log.Fatal("Failed to query db: ", err)
+	}
+	if !tableExists {
 		_, err = Db.Exec(`
 			CREATE TABLE productdata (
 				prodid UUID PRIMARY KEY,
@@ -132,7 +142,10 @@ func dbInit() error {
 	// Check 'productreview'
 	tableExists = false
 	err = Db.QueryRow("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'productreview')").Scan(&tableExists)
-	if tableExists == false {
+	if err != nil {
+		log.Fatal("Failed to query db: ", err)
+	}
+	if !tableExists {
 		_, err = Db.Exec(`
 			CREATE TABLE productreview (
 				prodid UUID,

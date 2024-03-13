@@ -12,6 +12,7 @@ func main() {
 	http.HandleFunc("/register", registerUser)
 	http.HandleFunc("/login", loginUser)
 	http.HandleFunc("/profile", profilePage)
+	http.HandleFunc("/addproduct", addProduct)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
@@ -21,7 +22,7 @@ func main() {
 
 		cookie, err := r.Cookie("session_cookie")
 
-		if cookie != nil {
+		if err == nil {
 			err := parseCookie(cookie, &pageData.UserInfo)
 			if err != nil {
 				log.Printf("Failed to parse cookie for %s: %s", r.RemoteAddr, err)
