@@ -3,77 +3,78 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    /* Custom CSS for the carousel */
-    .carousel-item {
-      display: flex;
-      justify-content: center;
-    }
-    .custom-card {
-      margin: 20px;
-      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    }
-  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <!--style.css-->
+<link rel="stylesheet" href="style.css"/>
+
   <title>Product Carousel</title>
 </head>
 <body>
-  <div class="container">
-    <div id="productCarousel" class="carousel slide" data-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <div class="row">
-            <div class="col-md-4">
-              <div class="custom-card">
-                <!-- Card content for Product 1 -->
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="custom-card">
-                <!-- Card content for Product 2 -->
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="custom-card">
-                <!-- Card content for Product 3 -->
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="row">
-            <div class="col-md-4">
-              <div class="custom-card">
-                <!-- Card content for Product 4 -->
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="custom-card">
-                <!-- Card content for Product 5 -->
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="custom-card">
-                <!-- Card content for Product 6 -->
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Add more carousel-item structures for additional slides -->
-      </div>
-      <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
+  <div id="productCarouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div class="carousel-indicators">
+    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
-  </div>
-
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="custom-card-2">
+              <img src="product1.jpg" class="card-img-top" alt="Product 1">
+              <div class="card-body">
+                <h5 class="card-title">Product 1</h5>
+                <p class="card-text">Brief description of Product 1.</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">Rating: 4.5</small>
+              </div>
+            </div>
+          </div>
+          <!-- Repeat the above card structure for the remaining two products -->
+          <!-- Second card -->
+          <div class="col-md-4">
+            <div class="custom-card-2">
+              <img src="product2.jpg" class="card-img-top" alt="Product 2">
+              <div class="card-body">
+                <h5 class="card-title">Product 2</h5>
+                <p class="card-text">Brief description of Product 2.</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">Rating: 4.2</small>
+              </div>
+            </div>
+          </div>
+          <!-- Third card -->
+          <div class="col-md-4">
+            <div class="custom-card-2">
+              <img src="product3.jpg" class="card-img-top" alt="Product 3">
+              <div class="card-body">
+                <h5 class="card-title">Product 3</h5>
+                <p class="card-text">Brief description of Product 3.</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">Rating: 4.8</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Repeat the above carousel-item structure for the remaining slides -->
+      <!-- Second carousel-item -->
+      <div class="carousel-item">
+        <!-- Row and card structure for the second slide -->
+      </div>
+      <!-- Third carousel-item -->
+      <div class="carousel-item">
+        <!-- Row and card structure for the third slide -->
+      </div>
+</div>
+      
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
 </body>
 </html>

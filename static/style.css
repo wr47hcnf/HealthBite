@@ -192,11 +192,12 @@
       font-weight: bold;
       color: var(--green-color);
   }
+
   .allergen-buttons {
     max-height: 300px; /* Adjust the max-height as needed */
     overflow-y: auto;
   }
-  /* CSS for loading animation */
+
   .loader {
     border: 5px solid #f3f3f3; /* Light grey */
     border-top: 5px solid #3498db; /* Blue */
@@ -207,7 +208,33 @@
     margin: auto;
     margin-top: 20px;
   }
+
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  .product-carousel-item {
+    text-align: center;
+  }
+
+  .custom-card-2 {
+    margin: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+  
+  .carousel-indicators {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  top: 20;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin-right: 15%;
+  margin-bottom: -1rem;
+  margin-left: 15%;
+  background-color: #339966;
+}
