@@ -26,15 +26,12 @@
                     <form id="profile-settings-form">
                         <div class="form-group">
                             <label for="dietaryPreferences">Dietary Preferences</label>
-                            <input type="text" class="form-control" id="dietaryPreferences" placeholder="e.g., Vegan, Gluten-free" oninput="checkForChanges()">
+                            <input type="text" class="form-control" id="dietaryPreferences" placeholder="e.g., Vegan, Gluten-free..." oninput="checkForChanges()">
                         </div>
-                        <div class="container mt-5">
-                            <h2>Food Allergens</h2>
-                            <div class="loader"></div> <!-- Loading animation -->
-                            <div class="allergen-buttons d-none">
-                            <!-- Allergen buttons will be appended here -->
-                            </div>
-                            <input type="hidden" name="selectedAllergens" id="selectedAllergens">
+                        <div class="form-group">
+                            <label for="allergenlist">Allergies</label>
+                            <input class="form-control" list="AllergenDataList" id="allergenlist" placeholder="e.g., Diary, Eggs...">
+                            <datalist id="AllergenDataList"></datalist>
                         </div>
                         <button type="submit" class="btn btn-primary" id="updateProfileBtn">Update Profile</button>
                         <button type="reset" class="btn btn-primary" id="updateProfileBtn" onclick="editChanghes()">Edit Profile</button>
@@ -87,38 +84,28 @@ function editChanghes() {
     inputLocation.className="form-control";
     inputInterests.className="form-control";
 }
-$(document).ready(function() {
-    // Fetch allergens from JSON file
-    $.getJSON("https://world.openfoodfacts.org/allergens.json", function(data) {
-      // Filter allergens starting with "en:"
-      var filteredAllergens = data.tags.filter(function(allergen) {
-        return allergen.id.startsWith("en:");
-      });
-
-      // Remove loading animation and show allergen buttons
-      $(".loader").remove();
-      $(".allergen-buttons").removeClass("d-none");
-
-      // Append allergen buttons to the div
-      $.each(filteredAllergens, function(index, allergen) {
-        $(".allergen-buttons").append("<button class='btn btn-primary mr-2 mb-2 allergen-button' value='" + allergen.id + "'>" + allergen.name + "</button>");
-      });
-
-      // Add click event listener to allergen buttons
-      $(".allergen-button").click(function() {
-        $(this).toggleClass("active"); // Toggle active class
-        updateSelectedAllergens(); // Update hidden input with selected allergen IDs
-      });
-    });
-
-    // Function to update hidden input with selected allergen IDs
-    function updateSelectedAllergens() {
-      var selectedAllergens = []; // Array to store selected allergen IDs
-      $(".allergen-button.active").each(function() {
-        selectedAllergens.push($(this).val()); // Add selected allergen ID to the array
-      });
-      $("#selectedAllergens").val(selectedAllergens.join(",")); // Update hidden input value
+fetch('https://world.openfoodfacts.org/allergens.json')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
     }
+    return response.json();
+  })
+  .then(data => {
+    const allergens = data.tags;
+    if (!Array.isArray(allergens)) {
+      throw new Error('Allergens data is not an array');
+    }
+    const dataList = document.getElementById("AllergenDataList");
+    allergens.forEach(allergen => {
+      const option = document.createElement('option');
+      option.value = allergen.name;
+      option.id = allergen.id;
+      dataList.appendChild(option);
+    });
+  })
+  .catch(error => {
+    console.error('Error fetching or processing JSON data:', error);
   });
 </script>
 
