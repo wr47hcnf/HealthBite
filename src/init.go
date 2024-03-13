@@ -29,7 +29,7 @@ func init() {
 	}
 
 	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String("your-region"),
+		Region:      aws.String("eu-north-1"),
 		Credentials: credentials.NewStaticCredentials(aws_access, aws_secret, ""),
 	})
 	if err != nil {
