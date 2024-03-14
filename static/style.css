@@ -20,6 +20,7 @@ body {
     background-color: var(--neutral-color);
     display: flex;
     flex-direction: column;
+    min-height: 62.5em;
     padding-bottom: 100px; /* Height of the footer */
   }
 
@@ -27,6 +28,7 @@ html, body {
     height: 100%;
     margin: 0;
   }
+
 .content {
     flex: 1;
   }
@@ -148,7 +150,8 @@ html, body {
   }
 
   .footer {
-    position: sticky;
+    flex-shrink: 0;
+    position: relative;
     bottom: 0;
     width: 100%;
     background-color: var(--primary-color);
