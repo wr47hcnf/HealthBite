@@ -233,3 +233,17 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		log.Print(err)
 	}
 }
+
+func logoutUser(w http.ResponseWriter, r *http.Request) {
+	// Delete the session cookie
+	cookie := &http.Cookie{
+		Name:   "session_cookie",
+		Value:  "",
+		Path:   "/",
+		MaxAge: -1,
+	}
+	http.SetCookie(w, cookie)
+
+	// Redirect or respond with a message
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
