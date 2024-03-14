@@ -1,0 +1,224 @@
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+:root {
+    --green-color: #12372A;
+    --light_green-color: #436850;
+}
+
+body {
+    background-color: #FBFADA; /* Neutral Color 1 */
+      display: flex;
+      flex-direction: column;
+  }
+
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+.content {
+    flex: 1;
+  }
+
+/* Customize the navbar background color */
+.navbar-custom {
+    background-color: #12372A; /* Primary Color */
+  }
+
+  /* Customize the navbar text color */
+  .navbar-custom .navbar-text {
+    color: #FBFADA;
+  }
+
+  /* Customize the search text box background color */
+  .search-textbox {
+    background-color: #FBFADA;
+    color: #12372A; /* Primary Color */
+    border-color: black;
+  }
+
+  /* Customize the search button background color */
+  .search-button {
+    background-color: #436850; /* Secondary Color 1 */
+    border-color: black; /* Secondary Color 2 */
+    color: #FBFADA;
+  }
+
+  /* Customize the search button hover color */
+  .search-button:hover {
+    background-color: #ADBC9F; /* Accent Color 2 */
+    border-color: black;
+  }
+
+  .carousel-indicators {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    top: 20;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin-right: 15%;
+    margin-bottom: -1rem;
+    margin-left: 15%;
+    background-color: #436850;
+  }
+
+  /* Customize the form background color */
+  .form-container {
+    background-color: #FBFADA;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Customize the form text color */
+  .form-label {
+    color: #12372A; /* Primary Color */
+  }
+
+  /* Customize the form button color */
+  .btn-login {
+    background-color: #12372A; /* Primary Color */
+    border-color: black;
+  }
+
+  /* Customize the form button hover color */
+  .btn-login:hover {
+    background-color: #ADBC9F; /* Accent Color 2 */
+    border-color: black;
+  }
+
+  /* Customize the form background color */
+  .form-container {
+    background-color: #FBFADA;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Customize the form text color */
+  .form-label {
+    color: #12372A; /* Primary Color */
+  }
+
+  /* Customize the form button color */
+  .btn-register {
+    background-color: #12372A; /* Primary Color */
+    border-color: black;
+  }
+
+  /* Customize the form button hover color */
+  .btn-register:hover {
+    background-color: #ADBC9F; /* Accent Color 2 */
+    border-color: black;
+  }
+
+  .footer {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background-color: #12372A; /* Primary Color */
+    color: #FBFADA;
+    padding: 20px 0;
+  }
+  .footer a {
+    color: #FBFADA;
+    text-decoration: none;
+  }
+  .footer a:hover {
+    color: #ADBC9F; /* Accent Color 2 */
+  }
+
+  /* Customize the carousel control arrows */
+  .carousel-control-prev,
+  .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5%;
+    height: auto;
+    z-index: 10;
+  }
+
+  .carousel-control-prev {
+    left: -5%;
+  }
+
+  .carousel-control-next {
+    right: -5%;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    background-color: black; /* Set the color to black */
+  }
+
+  .btn-custom {
+    background-color: var(--green-color);
+    border-color: var(--green-color);
+    color: #FBFADA;
+}
+
+.btn-custom:hover {
+    background-color: var(--light_green-color);
+    border-color: var(--light_green-color);
+}
+
+.form-custom-border {
+    border-color: var(--green-color);
+}
+
+.nutritional-label, .description-header {
+    font-weight: bold;
+    color: var(--green-color);
+}
+
+.allergen-buttons {
+  max-height: 300px; /* Adjust the max-height as needed */
+  overflow-y: auto;
+}
+
+.product-carousel-item {
+  text-align: center;
+}
+
+.custom-card-2 {
+  margin: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+/* Custom CSS to adjust carousel height */
+.carousel-item img {
+    height: 70vh; /* Set the height to half of the viewport height */
+    object-fit: cover; /* Ensure the image covers the entire slide */
+  }
+  /* Add your custom styles here */
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  
+
+/* Make the image square */
+.square-image {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: cover;
+    border-radius: 10px; /* Rounded corners */
+  }
+
+/* Customize the price */
+.price {
+    font-size: 36px; /* Adjust font size as needed */
+    font-weight: bold; /* Make the price bold */
+    color: black; /* Set the color to black */
+  }
