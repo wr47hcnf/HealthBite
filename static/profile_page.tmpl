@@ -6,12 +6,15 @@
     <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card" id="CardInfo">
                 <div class="card-header">
                     <h3 class="text-center">Welcome to your account</h3>
                 </div>
+                <form id="UpdateProfile">
                 <div class="card-body text-center">
+                    <label for="UploadedProfilePicture" class="form-label">Profile Photo</label><br>
                     <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-picture mb-3">
+                    <input type="file" name="ProfilePhoto" id="UploadedProfilePicture"/>
                     <h4 class="card-title" id="title">John</h4>
                     <p class="card-text" id="text">I am a young man with big dreams</p>
                 </div>
@@ -23,7 +26,6 @@
                 <!-- Profile Settings Section -->
                 <div class="card-body">
                     <h5 class="card-title">Profile Settings</h5>
-                    <form id="profile-settings-form">
                         <div class="form-group">
                             <label for="dietaryPreferences">Dietary Preferences</label>
                             <input type="text" class="form-control" id="dietaryPreferences" placeholder="e.g., Vegan, Gluten-free..." oninput="checkForChanges()">
@@ -34,12 +36,12 @@
                             <datalist id="AllergenDataList"></datalist>
                         </div>
                         <button type="submit" class="btn btn-primary" id="updateProfileBtn">Update Profile</button>
-                        <button type="reset" class="btn btn-primary" id="updateProfileBtn" onclick="editChanghes()">Edit Profile</button>
-                    </form>
+                        <button type="reset" class="btn btn-primary" id="editProfileBtn" onclick="editChanghes()">Edit Profile</button>
                 </div>
                 <div class="card-footer text-muted">
                     Joined on January 1, 2020
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -107,6 +109,47 @@ fetch('https://world.openfoodfacts.org/allergens.json')
   .catch(error => {
     console.error('Error fetching or processing JSON data:', error);
   });
+
+  function PostRequest() {
+    document.getElementById("UpdateProfile").addEventListener("updateProfileBtn", function(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
+
+      // Get input field values
+      const username = document.getElementById("title").value;
+      const description = document.getElementById("text").value;
+      const mail = document.getElementById("EditMail").value;
+      const location = document.getElementById("EditLocation").value;
+      const interests = document.getElementById("EditInterests").value;
+      const dietaryPreferences = document.getElementById("dietaryPreferences").value;
+      const allergen = document.getElementById("allergenlist").value;
+
+      // Construct the form data
+      const formData = new FormData();
+      formData.append("title", username);
+      formData.append("text", description);
+      formData.append("EditMail", mail);
+      formData.append("EditLocation", location);
+      formData.append("EditInterests", interests);
+      formData.append("dietaryPreferences", dietaryPreferences);
+      formData.append("allergenlist", allergen);
+
+      // Make the POST request
+      fetch('/profile', {
+          method: 'POST',
+          body: formData
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          // Redirect to the desired page
+          window.location.href = '/profile';
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+  });
+  }
 </script>
 
 {{template "footer"}}
