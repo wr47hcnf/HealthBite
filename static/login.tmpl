@@ -6,7 +6,7 @@
 {{if eq .UserInfo.IsLogged false}}
 <div class="container-login">
   <div class="shorter-form">
-    <div class="form-container p-4 border rounded">
+    <div class="form-container p-4 border rounded" style="border-radius: 8px;"> <!-- Added border-radius style -->
       <h1 class="mb-4 text-center">Login</h1>
       <form action="/login" method="post">
         <div class="mb-3">
