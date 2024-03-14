@@ -4,14 +4,23 @@
   }
 
 :root {
-    --green-color: #12372A;
-    --light_green-color: #436850;
+    --primary-color: #12372A;
+    --secondary_1-color: #436850;
+    --secondary_2-color: #ADBC9F;
+    --neutral-color: #FBFADA;
+}
+
+html{
+  position: relative;
+  min-height: 100%;
 }
 
 body {
-    background-color: #FBFADA; /* Neutral Color 1 */
-      display: flex;
-      flex-direction: column;
+    margin: 0;
+    background-color: var(--neutral-color);
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 100px; /* Height of the footer */
   }
 
 html, body {
@@ -24,31 +33,31 @@ html, body {
 
 /* Customize the navbar background color */
 .navbar-custom {
-    background-color: #12372A; /* Primary Color */
+    background-color: var(--primary-color);
   }
 
   /* Customize the navbar text color */
   .navbar-custom .navbar-text {
-    color: #FBFADA;
+    color: var(--neutral-color);
   }
 
   /* Customize the search text box background color */
   .search-textbox {
-    background-color: #FBFADA;
-    color: #12372A; /* Primary Color */
+    background-color: var(--neutral-color);
+    color: var(--primary-color);
     border-color: black;
   }
 
   /* Customize the search button background color */
   .search-button {
-    background-color: #436850; /* Secondary Color 1 */
-    border-color: black; /* Secondary Color 2 */
-    color: #FBFADA;
+    background-color: var(--secondary_1-color);
+    border-color: black;
+    color: var(--neutral-color);
   }
 
   /* Customize the search button hover color */
   .search-button:hover {
-    background-color: #ADBC9F; /* Accent Color 2 */
+    background-color: var(--secondary_2-color);
     border-color: black;
   }
 
@@ -65,73 +74,95 @@ html, body {
     margin-right: 15%;
     margin-bottom: -1rem;
     margin-left: 15%;
-    background-color: #436850;
+    background-color: var(--secondary_1-color);
   }
 
-  /* Customize the form background color */
-  .form-container {
-    background-color: #FBFADA;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
+/* Customize the form button color */
+.btn-login {
+  background-color: var(--primary-color);
+  color: var(--neutral-color);
+  border-color: black;
+}
 
-  /* Customize the form text color */
-  .form-label {
-    color: #12372A; /* Primary Color */
-  }
+/* Customize the form button hover color */
+.btn-login:hover {
+  background-color: var(--secondary_2-color);
+  border-color: black;
+  color: black;
+}
 
-  /* Customize the form button color */
-  .btn-login {
-    background-color: #12372A; /* Primary Color */
-    border-color: black;
-  }
+.container-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
 
-  /* Customize the form button hover color */
-  .btn-login:hover {
-    background-color: #ADBC9F; /* Accent Color 2 */
-    border-color: black;
-  }
+.shorter-form {
+  max-width: 35em; /* Set the maximum width for the form */
+  width: 100%;
+  margin: auto; /* Center the form horizontally within the container */
+}
 
-  /* Customize the form background color */
-  .form-container {
-    background-color: #FBFADA;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
+/* Customize the form background color */
+.form-container {
+  background-color: var(--secondary_1-color);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
 
-  /* Customize the form text color */
-  .form-label {
-    color: #12372A; /* Primary Color */
-  }
+/* Customize the form text color */
+.form-label {
+  color: var(--neutral-color);
+}
+
+.mb-4 {
+  color: var(--neutral-color);
+}
+
+/* Position the register button at the bottom right corner of the form */
+.login_register_button {
+  background-color: var(--primary-color);
+  color: var(--neutral-color);
+  margin-left: auto;
+  border-color: black;
+}
+
+.login_register_button:hover {
+  background-color: var(--secondary_2-color);
+  border-color: black;
+  color: black;
+}
 
   /* Customize the form button color */
   .btn-register {
-    background-color: #12372A; /* Primary Color */
+    background-color: var(--primary-color);
     border-color: black;
   }
 
   /* Customize the form button hover color */
   .btn-register:hover {
-    background-color: #ADBC9F; /* Accent Color 2 */
+    background-color: var(--secondary_2-color);
     border-color: black;
   }
 
   .footer {
-    position: sticky;
+    position: absolute;
     bottom: 0;
     width: 100%;
-    background-color: #12372A; /* Primary Color */
-    color: #FBFADA;
+    background-color: var(--primary-color);
+    color: var(--neutral-color);
     padding: 20px 0;
   }
+
   .footer a {
-    color: #FBFADA;
+    color: var(--neutral-color);
     text-decoration: none;
   }
+
   .footer a:hover {
-    color: #ADBC9F; /* Accent Color 2 */
+    color: var(--secondary_2-color);
   }
 
   /* Customize the carousel control arrows */
@@ -155,27 +186,27 @@ html, body {
 
   .carousel-control-prev-icon,
   .carousel-control-next-icon {
-    background-color: black; /* Set the color to black */
+    background-color: black;
   }
 
   .btn-custom {
-    background-color: var(--green-color);
-    border-color: var(--green-color);
-    color: #FBFADA;
+    background-color: var(--primary-color);
+    border-color: black;
+    color: var(--neutral-color);
 }
 
 .btn-custom:hover {
-    background-color: var(--light_green-color);
-    border-color: var(--light_green-color);
+    background-color: var(--secondary_1-color);
+    border-color: black;
 }
 
 .form-custom-border {
-    border-color: var(--green-color);
+    border-color: var(--primary-color);
 }
 
 .nutritional-label, .description-header {
     font-weight: bold;
-    color: var(--green-color);
+    color: var(--primary-color);
 }
 
 .allergen-buttons {
@@ -205,8 +236,6 @@ html, body {
     object-fit: cover;
   }
 
-  
-
 /* Make the image square */
 .square-image {
     width: 100%;
@@ -218,7 +247,7 @@ html, body {
 
 /* Customize the price */
 .price {
-    font-size: 36px; /* Adjust font size as needed */
+    font-size: 36px;
     font-weight: bold; /* Make the price bold */
     color: black; /* Set the color to black */
   }
