@@ -148,7 +148,7 @@ html, body {
   }
 
   .footer {
-    position: absolute;
+    position: sticky;
     bottom: 0;
     width: 100%;
     background-color: var(--primary-color);
@@ -189,7 +189,7 @@ html, body {
     background-color: black;
   }
 
-  .btn-custom {
+.btn-custom {
     background-color: var(--primary-color);
     border-color: black;
     color: var(--neutral-color);
