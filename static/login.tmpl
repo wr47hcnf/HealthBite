@@ -3,6 +3,7 @@
 {{range .PageError}}
 {{template "error" .}}
 {{end}}
+{{if eq .UserInfo.IsLogged false}}
  <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-lg-6">
@@ -23,4 +24,5 @@
     </div>
   </div>
  </div>
+ {{end}}
  {{template "footer"}}
