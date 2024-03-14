@@ -107,7 +107,7 @@ func profilePage(w http.ResponseWriter, r *http.Request) {
 
 func addProduct(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(
-		"static/add_product.tmpl",
+		"static/product_submission.tmpl",
 		"static/error.tmpl",
 		"static/header.tmpl",
 		"static/navbar.tmpl",
