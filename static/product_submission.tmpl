@@ -13,31 +13,31 @@
         <!-- Description Header -->
         <h3 class="description-header">Description</h3>
     
-        <form id="productForm" class="needs-validation" novalidate>
+        <form id="productForm" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
             <div class="form-row">
                 <div class="col-md-6 mb-3">
-                    <label for="brand">Brand</label>
-                    <input type="text" class="form-control form-custom-border" id="brand" placeholder="Brand" required>
+                    <label for="productBrand">Brand</label>
+                    <input type="text" class="form-control form-custom-border" id="productBrand" name="productBrand" placeholder="Brand" required>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="productName">Product Name</label>
-                    <input type="text" class="form-control form-custom-border" id="productName" placeholder="Product Name" required>
+                    <input type="text" class="form-control form-custom-border" id="productName" name="productName" placeholder="Product Name" required>
                 </div>
             </div>
 
         <!-- Form Section 2: Weight -->
         <div class="form-row">
             <div class="col-md-4 mb-3">
-                <label for="weight">Weight</label>
-                <input type="text" class="form-control form-custom-border" id="weight" placeholder="Weight" required>
+                <label for="productWeight">Weight</label>
+                <input type="text" class="form-control form-custom-border" id="productWeight" name="productWeight" placeholder="Weight" required>
             </div>
         </div>
 
         <!-- Form Section 3: Price -->
         <div class="form-row">
             <div class="col-md-4 mb-3">
-                <label for="price">Price</label>
-                <input type="text" class="form-control form-custom-border" id="price" placeholder="Price" required>
+                <label for="productPrice">Price</label>
+                <input type="text" class="form-control form-custom-border" id="productPrice" name="productPrice" placeholder="Price" required>
             </div>
         </div>
 
@@ -47,22 +47,22 @@
         <h3 class="nutritional-label mt-4">Nutritional Facts</h3>
         <div class="form-row">
             <div class="col-md-4 mb-3">
-                <label for="calories">Calories</label>
-                <input type="number" class="form-control form-custom-border" id="calories" placeholder="Calories" required>
+                <label for="productCalories">Calories</label>
+                <input type="number" class="form-control form-custom-border" id="productCalories" name="productCalories" placeholder="Calories" required>
                 <div class="invalid-feedback">
                     Please provide calorie information.
                 </div>
             </div>
             <div class="col-md-4 mb-3">
-                <label for="totalFat">Total Fat (g)</label>
-                <input type="number" class="form-control form-custom-border" id="totalFat" placeholder="Total Fat" required>
+                <label for="productFat">Total Fat (g)</label>
+                <input type="number" class="form-control form-custom-border" id="productFat" name="productFat" placeholder="Total Fat" required>
                 <div class="invalid-feedback">
                     Please provide total fat in grams.
                 </div>
             </div>
             <div class="col-md-4 mb-3">
-                <label for="sodium">Sodium (mg)</label>
-                <input type="number" class="form-control form-custom-border" id="sodium" placeholder="Sodium" required>
+                <label for="productSodium">Sodium (mg)</label>
+                <input type="number" class="form-control form-custom-border" id="productSodium" name="productSodium" placeholder="Sodium" required>
                 <div class="invalid-feedback">
                     Please provide sodium in milligrams.
                 </div>
@@ -70,8 +70,8 @@
         </div>
         <div class="form-row">
             <div class="col-md-4 mb-3">
-                <label for="carbohydrate">Carbohydrate (g)</label>
-                <input type="number" class="form-control form-custom-border" id="carbohydrate" placeholder="Carbohydrate" required>
+                <label for="productCarbohydrate">Carbohydrate (g)</label>
+                <input type="number" class="form-control form-custom-border" id="productCarbohydrate" name="productCarbohydrate" placeholder="Carbohydrate" required>
                 <div class="invalid-feedback">
                     Please provide carbohydrate in grams.
                 </div>
@@ -84,8 +84,8 @@
                 </div>
             </div>
             <div class="col-md-4 mb-3">
-                <label for="allergens">Allergens</label>
-                <input type="text" class="form-control form-custom-border" id="allergens" placeholder="Allergens">
+                <label for="productAllergens">Allergens</label>
+                <input type="text" class="form-control form-custom-border" id="productAllergens" name="productAllergens" placeholder="Allergens">
                 <div class="invalid-feedback">
                     Please list any allergens.
                 </div>
@@ -101,10 +101,10 @@
     'use strict';
 
     document.addEventListener('input', function() {
-        const brand = document.getElementById('brand').value;
+        const brand = document.getElementById('productBrand').value;
         const productName = document.getElementById('productName').value;
-        const weight = document.getElementById('weight').value;
-        const price = document.getElementById('price').value;
+        const weight = document.getElementById('productWeight').value;
+        const price = document.getElementById('productPrice').value;
 
         const summaryParagraph = document.getElementById('summaryParagraph');
         summaryParagraph.textContent = `Brand: ${brand}, Product Name: ${productName}, Weight: ${weight}, Price: ${price}`;

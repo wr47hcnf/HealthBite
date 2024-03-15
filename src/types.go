@@ -15,13 +15,27 @@ type User struct {
 }
 
 type PageData struct {
-	PageTitle string
-	UserInfo  User
-	PageError []Error
+	PageTitle   string
+	UserInfo    User
+	UserDetails UserData
+	Products    []ProductData
+	PageError   []Error
 }
 
 type UserData struct {
 	FirstName string
 	LastName  string
 	Age       int
+}
+
+type ProductData struct {
+	ProdID        uuid.UUID
+	ProdName      string
+	ProdBarcode   string
+	ProdBrand     string
+	ProdLocation  string
+	ProdCalories  string
+	ProdWeight    int
+	ProdAllergens []string
+	ProdAdditives []string
 }

@@ -2,13 +2,17 @@ package main
 
 import (
 	"fmt"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/google/uuid"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
+	"strconv"
+	"strings"
+
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/google/uuid"
+	"github.com/lib/pq"
 )
 
 func parseCookie(cookie *http.Cookie, userdata *User) error {
@@ -73,34 +77,104 @@ func profilePage(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		pfpFile, pfpHeader, err := r.FormFile("profilepic")
+
+		age, err := strconv.Atoi(r.FormValue("age"))
 		if err != nil {
-			log.Printf("Failed to parse pfp for %s", r.RemoteAddr)
+			log.Printf("Could not update profile for %s", r.RemoteAddr)
 			pageData.PageError = append(pageData.PageError, Error{
 				ErrorCode:    1,
-				ErrorMessage: "Could not parse profile pic!",
+				ErrorMessage: "Invalid age!",
 			})
 			tmpl.Execute(w, pageData)
 			return
 		}
-		pfpext := filepath.Ext(pfpHeader.Filename)
-		key := "user/" + pageData.UserInfo.ID.String() + pfpext
-		_, err = Svc.PutObject(&s3.PutObjectInput{
-			Bucket: aws.String(bucketName),
-			Key:    aws.String(key),
-			Body:   pfpFile,
-		})
-		if err != nil {
-			log.Printf("Failed to upload pfp to aws for %s", r.RemoteAddr)
-			pageData.PageError = append(pageData.PageError, Error{
-				ErrorCode:    1,
-				ErrorMessage: "Could not update profile pic!",
+
+		pageData.UserDetails = UserData{
+			FirstName: r.Form.Get("fname"),
+			LastName:  r.Form.Get("lname"),
+			Age:       age,
+		}
+
+		profilepic := r.Form.Get("profilepic")
+		allergens := r.Form.Get("allergens")
+		target_calories := r.Form.Get("target_calories")
+		email := r.Form.Get("email")
+		location := r.Form.Get("location")
+
+		if profilepic != "" {
+			pfpFile, pfpHeader, err := r.FormFile("profilepic")
+			if err != nil {
+				log.Printf("Failed to parse pfp for %s", r.RemoteAddr)
+				pageData.PageError = append(pageData.PageError, Error{
+					ErrorCode:    1,
+					ErrorMessage: "Could not parse profile pic!",
+				})
+				tmpl.Execute(w, pageData)
+				return
+			}
+			pfpext := filepath.Ext(pfpHeader.Filename)
+			key := "user/" + pageData.UserInfo.ID.String() + pfpext
+			_, err = Svc.PutObject(&s3.PutObjectInput{
+				Bucket: aws.String(bucketName),
+				Key:    aws.String(key),
+				Body:   pfpFile,
 			})
-			tmpl.Execute(w, pageData)
+			if err != nil {
+				log.Printf("Failed to upload pfp to aws for %s", r.RemoteAddr)
+				pageData.PageError = append(pageData.PageError, Error{
+					ErrorCode:    1,
+					ErrorMessage: "Could not update profile pic! (S3)",
+				})
+			}
+			s3url := fmt.Sprintf("https://%s.s3-%s.amazonaws.com/%s", bucketName, aws_region, key)
+			_, err = Db.Exec("UPDATE userdata SET profilepic = $1 WHERE uid = $2", s3url, pageData.UserInfo.ID)
+			if err != nil {
+				log.Printf("Failed to upload pfp to db for %s", r.RemoteAddr)
+				pageData.PageError = append(pageData.PageError, Error{
+					ErrorCode:    1,
+					ErrorMessage: "Could not update profile pic! (DB)",
+				})
+			}
+		}
+		if allergens != "" {
+			allergen_slice := strings.Split(allergens, ",")
+			result, err := Db.Exec("UPDATE userdata SET allergens = $1 WHERE uid = $2", pq.Array(allergen_slice), pageData.UserInfo.ID)
+			log.Print(result)
+			if err != nil {
+				log.Printf("Failed to update allergens for %s", r.RemoteAddr)
+				pageData.PageError = append(pageData.PageError, Error{
+					ErrorCode:    1,
+					ErrorMessage: "Could not update allergens!",
+				})
+			}
+		}
+		query := "UPDATE userdata SET"
+		updates := ""
+		if pageData.UserDetails.FirstName != "" {
+			updates += fmt.Sprintf(" fname = '%s',", pageData.UserDetails.FirstName)
+		}
+		if pageData.UserDetails.LastName != "" {
+			updates += fmt.Sprintf(" lname = '%s',", pageData.UserDetails.LastName)
+		}
+		if email != "" {
+			updates += fmt.Sprintf(" email = '%s',", email)
+		}
+		if location != "" {
+			updates += fmt.Sprintf(" fname = '%s',", location)
+		}
+		if target_calories != "" {
+			target_calories += fmt.Sprintf(" target_calories = '%s',", target_calories)
+		}
+		updates = updates[:len(updates)-1]
+
+		query += updates + fmt.Sprintf(" WHERE uid = %s", pageData.UserInfo.ID)
+		_, err = Db.Exec(query)
+		if err != nil {
+			fmt.Print("Failed to modify userdata table: ", err)
+			http.Error(w, "Error updating data in database", http.StatusInternalServerError)
 			return
 		}
-		s3url := fmt.Sprintf("https://%s.s3-%s.amazonaws.com/%s", bucketName, aws_region, key)
-		_, err = Db.Exec("UPDATE userdata SET profilepic = $1 WHERE uid = $2", s3url, pageData.UserInfo.ID)
+
 	}
 	tmpl.Execute(w, pageData)
 }
@@ -130,34 +204,80 @@ func addProduct(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		pfpFile, pfpHeader, err := r.FormFile("profilepic")
+		productUUID, err := uuid.NewRandom()
 		if err != nil {
-			log.Printf("Failed to parse pfp for %s", r.RemoteAddr)
+			log.Printf("Failed to generate product uuid for %s", r.RemoteAddr)
 			pageData.PageError = append(pageData.PageError, Error{
 				ErrorCode:    1,
-				ErrorMessage: "Could not parse profile pic!",
+				ErrorMessage: "Could not generate product ID!",
 			})
 			tmpl.Execute(w, pageData)
 			return
 		}
-		pfpext := filepath.Ext(pfpHeader.Filename)
-		key := "user/" + pageData.UserInfo.ID.String() + pfpext
-		_, err = Svc.PutObject(&s3.PutObjectInput{
-			Bucket: aws.String(bucketName),
-			Key:    aws.String(key),
-			Body:   pfpFile,
+		productpic := r.Form.Get("productpic")
+		var s3url string
+		if productpic != "" {
+			pfpFile, pfpHeader, err := r.FormFile("productProductPic")
+			if err != nil {
+				log.Printf("Failed to parse pfp for %s", r.RemoteAddr)
+				pageData.PageError = append(pageData.PageError, Error{
+					ErrorCode:    1,
+					ErrorMessage: "Could not parse product pic!",
+				})
+				tmpl.Execute(w, pageData)
+				return
+			}
+			pfpext := filepath.Ext(pfpHeader.Filename)
+			key := "product/" + pageData.Products[0].ProdID.String() + pfpext
+			_, err = Svc.PutObject(&s3.PutObjectInput{
+				Bucket: aws.String(bucketName),
+				Key:    aws.String(key),
+				Body:   pfpFile,
+			})
+			if err != nil {
+				log.Printf("Failed to upload pfp to aws for %s", r.RemoteAddr)
+				pageData.PageError = append(pageData.PageError, Error{
+					ErrorCode:    1,
+					ErrorMessage: "Could not update product pic! (S3)",
+				})
+			}
+			s3url = fmt.Sprintf("https://%s.s3-%s.amazonaws.com/%s", bucketName, aws_region, key)
+		}
+		pageData.Products = append(pageData.Products, ProductData{
+			ProdID:       productUUID,
+			ProdName:     r.FormValue("productName"),
+			ProdBarcode:  r.FormValue("productBarcode"),
+			ProdLocation: r.FormValue("productLocation"),
+			ProdBrand:    r.FormValue("productBrand"),
+			ProdCalories: r.FormValue("productCalories"),
 		})
+		var nutritional_info []string
+		for _, v := range []string{"productFat", "productSodium", "productCarbohydrate", "ProductProtein"} {
+			nutritional_info = append(nutritional_info,
+				fmt.Sprintf("(%s,%s)", pq.QuoteLiteral(v), pq.QuoteLiteral(r.FormValue(fmt.Sprint(v)))))
+		}
+		result, err := Db.Exec(`INSERT INTO productdata (
+    		prodid, barcode, name, brand, pic, weight, calories, nutritional_info, additives, allergens)
+    		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+			pageData.Products[0].ProdID,
+			pageData.Products[0].ProdBarcode,
+			pageData.Products[0].ProdName,
+			pageData.Products[0].ProdBrand,
+			s3url,
+			pageData.Products[0].ProdWeight,
+			pageData.Products[0].ProdCalories,
+			pq.Array(nutritional_info),
+			pq.Array(pageData.Products[0].ProdAdditives),
+			pq.Array(pageData.Products[0].ProdAllergens),
+		)
+		log.Print(result)
 		if err != nil {
-			log.Printf("Failed to upload pfp to aws for %s", r.RemoteAddr)
+			log.Print(err)
 			pageData.PageError = append(pageData.PageError, Error{
 				ErrorCode:    1,
-				ErrorMessage: "Could not update profile pic!",
+				ErrorMessage: "Could not update product!",
 			})
-			tmpl.Execute(w, pageData)
-			return
 		}
-		s3url := fmt.Sprintf("https://%s.s3-%s.amazonaws.com/%s", bucketName, aws_region, key)
-		_, err = Db.Exec("UPDATE userdata SET profilepic = $1 WHERE uid = $2", s3url, pageData.UserInfo.ID)
 	}
 	tmpl.Execute(w, pageData)
 }
