@@ -167,15 +167,13 @@ func profilePage(w http.ResponseWriter, r *http.Request) {
 		if pageData.UserDetails.LastName != "" {
 			updates += fmt.Sprintf(" lname = '%s',", pageData.UserDetails.LastName)
 		}
-		if email != "" {
-			updates += fmt.Sprintf(" email = '%s',", email)
+		if pageData.UserDetails.Email != "" {
+			updates += fmt.Sprintf(" email = '%s',", pageData.UserDetails.Email)
 		}
-		if location != "" {
-			updates += fmt.Sprintf(" fname = '%s',", location)
+		if pageData.UserDetails.Location != "" {
+			updates += fmt.Sprintf(" fname = '%s',", pageData.UserDetails.Location)
 		}
-		if target_calories != "" {
-			target_calories += fmt.Sprintf(" target_calories = '%s',", target_calories)
-		}
+		updates += fmt.Sprintf(" target_calories = '%d',", pageData.UserDetails.TargetCalories)
 		updates = updates[:len(updates)-1]
 
 		query += updates + fmt.Sprintf(" WHERE uid = %s", pageData.UserInfo.ID)
