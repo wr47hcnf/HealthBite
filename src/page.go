@@ -88,20 +88,31 @@ func profilePage(w http.ResponseWriter, r *http.Request) {
 			tmpl.Execute(w, pageData)
 			return
 		}
-
-		pageData.UserDetails = UserData{
-			FirstName: r.Form.Get("fname"),
-			LastName:  r.Form.Get("lname"),
-			Age:       age,
+		calories, err := strconv.Atoi(r.FormValue("targetCalories"))
+		if err != nil {
+			log.Printf("Could not update profile for %s", r.RemoteAddr)
+			pageData.PageError = append(pageData.PageError, Error{
+				ErrorCode:    1,
+				ErrorMessage: "Invalid calories value!",
+			})
+			tmpl.Execute(w, pageData)
+			return
 		}
 
-		profilepic := r.Form.Get("profilepic")
-		allergens := r.Form.Get("allergens")
-		target_calories := r.Form.Get("target_calories")
-		email := r.Form.Get("email")
-		location := r.Form.Get("location")
+		pageData.UserDetails = UserData{
+			FirstName:      r.Form.Get("fname"),
+			LastName:       r.Form.Get("lname"),
+			Age:            age,
+			ProfilePic:     r.FormValue("profilepic"),
+			TargetCalories: calories,
+			Email:          r.FormValue("email"),
+			Location:       r.FormValue("location"),
+			Allergens:      strings.Split(r.FormValue("allergens"), ","),
+		}
 
-		if profilepic != "" {
+		allergens := r.Form.Get("allergens")
+
+		if pageData.UserDetails.ProfilePic != "" {
 			pfpFile, pfpHeader, err := r.FormFile("profilepic")
 			if err != nil {
 				log.Printf("Failed to parse pfp for %s", r.RemoteAddr)

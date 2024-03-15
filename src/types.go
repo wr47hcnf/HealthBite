@@ -23,9 +23,14 @@ type PageData struct {
 }
 
 type UserData struct {
-	FirstName string
-	LastName  string
-	Age       int
+	FirstName      string
+	LastName       string
+	Age            int
+	ProfilePic     string
+	TargetCalories int
+	Email          string
+	Location       string
+	Allergens      []string
 }
 
 type ProductData struct {
