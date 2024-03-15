@@ -24,6 +24,9 @@ jobs:
     - name: Make build directory
       run: mkdir build
 
+    - name: Create constants file
+      run: echo 'package main; const (host=""; port=5432; user="healthbite"; password="healthbite"; dbname="healthbite"; aws_region=""; aws_access=""; aws_secret=""; bucketName="healthbite")' > constants.go
+
     - name: Build
       run: go build -o build -v ./src/*.go
 
