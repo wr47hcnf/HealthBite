@@ -93,12 +93,11 @@
             </div>
         </div>
 
-        <button class="btn btn-custom" type="submit">Submit Product</button>
+        <button class="btn btn-custom" id="submitButton" type="submit">Submit Product</button>
     </form>
 </div>
 </div>
 </div>
-
 <script>
 (function() {
     'use strict';
@@ -127,10 +126,10 @@
 document.getElementById('submitButton').addEventListener('click', function() {
     const form = document.getElementById('productForm');
     if (form.checkValidity()) {
-        // Form is valid, proceed with submission
+        
         form.submit();
     } else {
-        // Form is invalid, show validation errors
+        
         form.classList.add('was-validated');
     }
 });
@@ -147,11 +146,11 @@ async function Autocomplete() {
         }
         const dataList = document.getElementById("productNamesList");
 
-        // Clear any existing options
+        
         dataList.innerHTML = '';
 
-        // Render options in batches
-        const batchSize = 50; // You can adjust this value
+        
+        const batchSize = 50; 
         for (let i = 0; i < products.length; i += batchSize) {
             const batch = products.slice(i, i + batchSize);
             await renderOptions(batch, dataList);
@@ -169,10 +168,10 @@ async function renderOptions(products, dataList) {
             option.id = product.id;
             dataList.appendChild(option);
         });
-        // Allow browser to render before continuing
+        
         setTimeout(resolve, 0);
     });
 }
-}
 </script>
+
 {{template "footer"}}
