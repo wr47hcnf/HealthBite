@@ -284,7 +284,7 @@ html, body {
 }
 
 .card-text-list {
-  color: var(--secondary-2-color);
+  color: var(--secondary_2-color);
 }
 
 .btn-primary-list {
@@ -297,4 +297,30 @@ html, body {
   background-color: var(--secondary_1-color);
   border-color: var(--neutral-color);
   color: var(--neutral-color);
+}
+
+.rwar{
+  margin-bottom: 150px; /* DO NOT DELETE */
+}
+
+.card-profile{
+  background-color: var(--secondary_2-color);
+}
+
+.title-profile, .date-profile{
+  color: black;
+}
+
+.small-list{
+  background-color: var(--secondary_2-color);
+}
+
+.btn-profile{
+  background-color: var(--primary-color);
+  color: var(--neutral-color);
+}
+
+.btn-profile:hover{
+  background-color: var(--secondary_1-color);
+  color: black;
 }

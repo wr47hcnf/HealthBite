@@ -3,26 +3,25 @@
 {{range .PageError}}
 {{template "error" .}}
 {{end}}
-    <div class="container mt-5">
+    <div class="container mt-5 rwar">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card" id="CardInfo">
+            <div class="card card-profile" id="CardInfo">
                 <div class="card-header">
                     <h3 class="text-center">Welcome to your account</h3>
                 </div>
                 <form action="/profile" method="post">
                     <div class="card-body text-center">
-                        <label for="UploadedProfilePicture" class="form-label">Profile Photo</label><br>
+                        <label for="UploadedProfilePicture" class="form-label title-profile">Profile Photo</label><br>
                         <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-picture mb-3">
                         <input type="file" name="ProfilePhoto" id="UploadedProfilePicture"/>
                         <h4 class="card-title" id="title">John</h4>
                         <p class="card-text" id="text">I am a young man with big dreams</p>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        
-                        <li class="list-group-item"><strong>Email:</strong><p id="EditMail">johndoesnotexist@gmail.com</p></li>
-                        <li class="list-group-item"><strong>Location:</strong><p id="EditLocation">Bacau, Romania</p></li>
-                        <li class="list-group-item"><strong>Interests:</strong><p id="EditInterests">Traveling, Photography, Reading</p></li>
+                    <ul class="list-group list-group-flush small-list">
+                        <li class="list-group-item small-list"><strong>Email:</strong><p id="EditMail">johndoesnotexist@gmail.com</p></li>
+                        <li class="list-group-item small-list"><strong>Location:</strong><p id="EditLocation">Bacau, Romania</p></li>
+                        <li class="list-group-item small-list"><strong>Interests:</strong><p id="EditInterests">Traveling, Photography, Reading</p></li>
                     </ul>
                     <!-- Profile Settings Section -->
                     <div class="card-body">
@@ -36,10 +35,10 @@
                                 <input class="form-control" name="allergenlist" list="AllergenDataList" id="allergenlist" placeholder="e.g., Diary, Eggs...">
                                 <datalist id="AllergenDataList"></datalist>
                             </div>
-                            <button type="submit" class="btn btn-primary" id="updateProfileBtn">Update Profile</button>
-                            <button type="reset" class="btn btn-primary" id="editProfileBtn" onclick="editChanghes()">Edit Profile</button>
+                            <button type="submit" class="btn btn-primary btn-profile" id="updateProfileBtn">Update Profile</button>
+                            <button type="reset" class="btn btn-primary btn-profile" id="editProfileBtn" onclick="editChanghes()">Edit Profile</button>
                     </div>
-                    <div class="card-footer text-muted">
+                    <div class="card-footer date-profile text-muted">
                         Joined on January 1, 2020
                     </div>
                 </form>
