@@ -265,3 +265,36 @@ html, body {
     font-weight: bold; /* Make the price bold */
     color: black; /* Set the color to black */
   }
+
+.result-item {
+  margin-bottom: 20px;
+  text-align: center; /* Center align the content in the card */
+}
+
+.card-list {
+  background-color: var(--secondary_2-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin-right: 60px; /* Added margin between cards */
+}
+
+.card-title-list {
+  color: var(--primary-color);
+}
+
+.card-text-list {
+  color: var(--secondary-2-color);
+}
+
+.btn-primary-list {
+  background-color: var(--primary-color);
+  border-color: var(--neutral-color);
+  color: var(--neutral-color);
+}
+
+.btn-primary-list:hover {
+  background-color: var(--secondary_1-color);
+  border-color: var(--neutral-color);
+  color: var(--neutral-color);
+}
