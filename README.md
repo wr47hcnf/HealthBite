@@ -5,13 +5,13 @@ This project is made for the FIICode Web & Dev competition. You can find more in
 
 ## Key aspects
 
-##### Backend Development in Go
+#### Backend Development in Go
 The site's backend will be written in Go, a programming language known for its speed and efficiency. Go compiles directly to machine code, resulting in a fast backend, and it also supports multithreading, allowing for concurrent execution of tasks.
 
-##### Input Sanitization & Regex Checking
+#### Input Sanitization & Regex Checking
 To ensure data security and integrity, the site will implement input sanitization and regular expression (regex) checking. This will help prevent malicious input and enforce specific patterns for user-provided data, enhancing the overall security and reliability of the system.
 
-##### Minimal JavaScript Usage
+#### Minimal JavaScript Usage
 The site will prioritize minimal use of JavaScript to promote fast loading times and reduce client-side processing. By keeping JavaScript usage to a minimum, the site will deliver a streamlined user experience while maintaining high performance and efficient resource utilization.
 
 ## Prerequisites
