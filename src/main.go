@@ -1,7 +1,6 @@
 package main
 
 import (
-	"html/template"
 	"log"
 	"net/http"
 )
@@ -14,40 +13,9 @@ func main() {
 	http.HandleFunc("/logout", logoutUser)
 	http.HandleFunc("/profile", profilePage)
 	http.HandleFunc("/addproduct", addProduct)
+	http.HandleFunc("/product", viewProduct)
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		pageData := PageData{
-			PageTitle: "Homepage",
-		}
-		cookie, err := r.Cookie("session_cookie")
-		if err == nil {
-			err := parseCookie(cookie, &pageData.UserInfo)
-			if err != nil {
-				log.Printf("Failed to parse cookie for %s: %s", r.RemoteAddr, err)
-				pageData.PageError = append(pageData.PageError, Error{
-					ErrorCode:    1,
-					ErrorMessage: "failed to parse cookie",
-				})
-			}
-		}
-		tmpl, err := template.ParseFiles(
-			"static/index.tmpl",
-			"static/header.tmpl",
-			"static/navbar.tmpl",
-			"static/footer.tmpl",
-		)
-		if err != nil {
-			log.Print("Failed to parse files: ", err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		err = tmpl.Execute(w, pageData)
-		if err != nil {
-			log.Print("Failed to render page: ", err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-	})
+	http.HandleFunc("/", homePage)
 
 	err := http.ListenAndServe(":8080", nil)
 

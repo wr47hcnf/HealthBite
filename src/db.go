@@ -115,6 +115,7 @@ func dbInit() error {
 				name VARCHAR(30),
 				brand VARCHAR(20),
 				pic VARCHAR(50),
+				location VARCHAR(50)
 				weight VARCHAR(10),
 				calories INT,
 				nutritional_info nutritional_info[],

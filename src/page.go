@@ -40,6 +40,70 @@ func parseCookie(cookie *http.Cookie, userdata *User) error {
 	return nil
 }
 
+func homePage(w http.ResponseWriter, r *http.Request) {
+	pageData := PageData{
+		PageTitle: "Homepage",
+	}
+	cookie, err := r.Cookie("session_cookie")
+	if err == nil {
+		err := parseCookie(cookie, &pageData.UserInfo)
+		if err != nil {
+			log.Printf("Failed to parse cookie for %s: %s", r.RemoteAddr, err)
+			pageData.PageError = append(pageData.PageError, Error{
+				ErrorCode:    2,
+				ErrorMessage: "failed to parse cookie",
+			})
+		}
+	}
+	tmpl, err := template.ParseFiles(
+		"static/index.tmpl",
+		"static/header.tmpl",
+		"static/error.tmpl",
+		"static/navbar.tmpl",
+		"static/footer.tmpl",
+	)
+	if err != nil {
+		log.Print("Failed to parse files: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	rows, err := Db.Query("SELECT * FROM productdata")
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var product ProductData
+		err := rows.Scan(
+			&product.ProdID,
+			&product.ProdBarcode,
+			&product.ProdName,
+			&product.ProdBrand,
+			&product.ProdImage,
+			&product.ProdLocation,
+			&product.ProdWeight,
+			&product.ProdCalories,
+			&product.NutritionalInfo,
+			&product.ProdAdditives,
+			&product.ProdAllergens,
+		)
+		if err != nil {
+			panic(err)
+		}
+		pageData.Products = append(pageData.Products, product)
+	}
+	if err := rows.Err(); err != nil {
+		panic(err)
+	}
+
+	err = tmpl.Execute(w, pageData)
+	if err != nil {
+		log.Print("Failed to render page: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
 func profilePage(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(
 		"static/profile_page.tmpl",
@@ -289,4 +353,24 @@ func addProduct(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	tmpl.Execute(w, pageData)
+}
+
+func viewProduct(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles(
+		"static/product_page.tmpl",
+		"static/error.tmpl",
+		"static/header.tmpl",
+		"static/navbar.tmpl",
+		"static/footer.tmpl",
+	))
+	productParam := r.URL.Query().Get("product")
+	pageData := PageData{
+		PageTitle: productParam,
+	}
+	err := tmpl.Execute(w, pageData)
+	if err != nil {
+		log.Print("Failed to render page: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
