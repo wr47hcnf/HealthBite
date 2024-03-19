@@ -30,6 +30,7 @@ go run ./src
 
 * [HTML](https://www.w3schools.com/html/) - basic framework for the content on the webpage
 * [Bootstrap](http://www.dropwizard.io/1.0.2/docs/) - front-end framework
+* ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)(https://www.w3schools.com/css/)
 * [CSS](https://www.w3schools.com/css/) - control the look and feel of web pages
 * [JavaScript](https://www.w3schools.com/js/default.asp) - enhancing interactivity on websites and web applications.
 * [GO](https://www.w3schools.com/go/index.php) - provide a simple and efficient way to create reliable and high-performance software
