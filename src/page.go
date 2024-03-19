@@ -374,3 +374,24 @@ func viewProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func searchProduct(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles(
+		"static/products_list.tmpl",
+		"static/error.tmpl",
+		"static/header.tmpl",
+		"static/navbar.tmpl",
+		"static/footer.tmpl",
+	))
+	productParam := r.URL.Query().Get("product")
+	pageData := PageData{
+		PageTitle: productParam,
+	}
+	err := tmpl.Execute(w, pageData)
+	if err != nil {
+		log.Print("Failed to render page: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	tmpl.Execute(w, pageData)
+}
