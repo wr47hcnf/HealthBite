@@ -69,7 +69,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 	}
 	rows, err := Db.Query("SELECT * FROM productdata")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer rows.Close()
 	for rows.Next() {
@@ -88,12 +88,12 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 			&product.ProdAllergens,
 		)
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 		pageData.Products = append(pageData.Products, product)
 	}
 	if err := rows.Err(); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	err = tmpl.Execute(w, pageData)
