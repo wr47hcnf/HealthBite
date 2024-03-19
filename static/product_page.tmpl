@@ -3,125 +3,107 @@
 {{range .PageError}}
 {{template "error" .}}
 {{end}}
-<!-- Headline Section -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
 <section class="headline">
   <div class="container">
     <h1>Name of the product</h1>
   </div>
 </section>
 
-<!-- Two Columns Section -->
 <section class="container">
-  <div class="row">
-    <!-- Left Column with Image -->
-    <div class="col-md-6">
-      <img src="image.jpg" class="square-image" alt="Product Image">
-    </div>
-    <!-- Right Column with Description and Price -->
-    <div class="col-md-6">
-      <div class="description">
-        <h2>Description</h2>
-        <p><strong>Brand:</strong> Product Brand</p>
-        <p><strong>Weight:</strong> Product Weight</p>
-        <div class="nutritional-facts">
-          <h3>Nutritional Facts</h3>
-          <ul>
-            <li><strong>Calories:</strong> [calories value]</li>
-            <li><strong>Total Fat:</strong> [total fat value]</li>
-            <li><strong>Sodium:</strong> [sodium value]</li>
-            <li><strong>Total Carbohydrates:</strong> [total carbohydrates value]</li>
-            <li><strong>Protein:</strong> [protein value]</li>
-            <li><strong>Allergens:</strong> [list of allergens]</li>
-          </ul>
-        </div>
+  <div class="card ix">
+    <div class="row">
+      <!-- Left Column with Image -->
+      <div class="col-md-6">
+        <img src="image.jpg" class="card-img-top" alt="Product Image">
       </div>
-      <div class="price">
-        <h2>Price</h2>
-        $99.99
+      <!-- Right Column with Description and Price -->
+      <div class="col-md-6">
+        <div class="card-body">
+          <h2 class="card-title">Product Name</h2>
+          <div class="description">
+            <h3>Description</h3>
+            <p><strong>Brand:</strong> Product Brand</p>
+            <p><strong>Weight:</strong> Product Weight</p>
+            <div class="nutritional-facts">
+              <h4>Nutritional Facts</h4>
+              <ul class="list-unstyled">
+                <li><strong>Calories:</strong> [calories value]</li>
+                <li><strong>Total Fat:</strong> [total fat value]</li>
+                <li><strong>Sodium:</strong> [sodium value]</li>
+                <li><strong>Total Carbohydrates:</strong> [total carbohydrates value]</li>
+                <li><strong>Protein:</strong> [protein value]</li>
+                <li><strong>Allergens:</strong> [list of allergens]</li>
+              </ul>
+            </div>
+          </div>
+          <div class="price">
+            <h3>Price</h3>
+            <p>$99.99</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- User Reviews Carousel Section -->
-<section class="container mt-5 position-relative">
-  <div id="userReviewsCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <!-- First group of user reviews -->
-      <div class="carousel-item active">
-        <div class="row justify-content-center">
-          <!-- First User Review Card -->
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">User 1</h5>
-                <p class="card-text">"Great product! Highly recommend."</p>
-              </div>
-            </div>
-          </div>
-          <!-- Second User Review Card -->
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">User 2</h5>
-                <p class="card-text">"Awesome quality and fast shipping."</p>
-              </div>
-            </div>
-          </div>
-          <!-- Third User Review Card -->
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">User 3</h5>
-                <p class="card-text">"Excellent customer service!"</p>
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000"> <!-- Set the interval to 3000 milliseconds (3 seconds) -->
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="row">
+        <div class="col">
+          <div class="card ">
+            <div class="card-body hate">
+              <h6 class="card-title love">Reviewer 1</h6>
+              <p class="card-text love">Review content goes here.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <button type="button" class="btn btn-sm btn-success upvote-btn">Upvote</button>
+                <button type="button" class="btn btn-sm btn-danger downvote-btn">Downvote</button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Second group of user reviews -->
-      <div class="carousel-item">
-        <div class="row justify-content-center">
-          <!-- Fourth User Review Card -->
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">User 4</h5>
-                <p class="card-text">"Very satisfied with my purchase."</p>
+        <div class="col">
+          <div class="card">
+            <div class="card-body hate">
+              <h6 class="card-title love">Reviewer 2</h6>
+              <p class="card-text love">Review content goes here.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <button type="button" class="btn btn-sm btn-success upvote-btn">Upvote</button>
+                <button type="button" class="btn btn-sm btn-danger downvote-btn">Downvote</button>
               </div>
             </div>
           </div>
-          <!-- Fifth User Review Card -->
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">User 5</h5>
-                <p class="card-text">"Top-notch product quality."</p>
-              </div>
-            </div>
-          </div>
-          <!-- Sixth User Review Card -->
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">User 6</h5>
-                <p class="card-text">"Great value for the price!"</p>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body hate">
+              <h6 class="card-title love">Reviewer 3</h6>
+              <p class="card-text love">Review content goes here.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <button type="button" class="btn btn-sm btn-success upvote-btn">Upvote</button>
+                <button type="button" class="btn btn-sm btn-danger downvote-btn">Downvote</button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- Carousel Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#userReviewsCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#userReviewsCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
+    <!-- Additional carousel items can be added here -->
   </div>
-</section>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
 </body>
 </html>
