@@ -34,13 +34,15 @@ type UserData struct {
 }
 
 type ProductData struct {
-	ProdID        uuid.UUID
-	ProdName      string
-	ProdBarcode   string
-	ProdBrand     string
-	ProdLocation  string
-	ProdCalories  string
-	ProdWeight    int
-	ProdAllergens []string
-	ProdAdditives []string
+	ProdID          uuid.UUID
+	ProdName        string
+	ProdBarcode     string
+	ProdBrand       string
+	ProdLocation    string
+	ProdCalories    string
+	ProdImage       string
+	ProdWeight      int
+	NutritionalInfo string
+	ProdAllergens   []string
+	ProdAdditives   []string
 }
