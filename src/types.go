@@ -41,6 +41,7 @@ type ProductData struct {
 	ProdLocation    string
 	ProdCalories    string
 	ProdImage       string
+	ProdPrice       int
 	ProdWeight      int
 	ProdFat         int
 	ProdSodium      int

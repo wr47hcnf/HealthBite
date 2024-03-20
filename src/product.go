@@ -83,35 +83,42 @@ func addProduct(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			pageData.PageError = append(pageData.PageError, Error{
 				ErrorCode:    1,
-				ErrorMessage: "Could not update product weight!",
+				ErrorMessage: fmt.Sprintf("Could not update product weight! %s", err),
 			})
 		}
 		fat, err := strconv.Atoi(r.FormValue("productFat"))
 		if err != nil {
 			pageData.PageError = append(pageData.PageError, Error{
 				ErrorCode:    1,
-				ErrorMessage: "Could not update product fat!",
+				ErrorMessage: fmt.Sprintf("Could not update product fat! %s", err),
 			})
 		}
 		sodium, err := strconv.Atoi(r.FormValue("productSodium"))
 		if err != nil {
 			pageData.PageError = append(pageData.PageError, Error{
 				ErrorCode:    1,
-				ErrorMessage: "Could not update product sodium!",
+				ErrorMessage: fmt.Sprintf("Could not update product sodium! %s", err),
 			})
 		}
 		carbs, err := strconv.Atoi(r.FormValue("productCarbohydrates"))
 		if err != nil {
 			pageData.PageError = append(pageData.PageError, Error{
 				ErrorCode:    1,
-				ErrorMessage: "Could not update product carbohydrates!",
+				ErrorMessage: fmt.Sprintf("Could not update product carbohydrates! %s", err),
 			})
 		}
 		protein, err := strconv.Atoi(r.FormValue("productProtein"))
 		if err != nil {
 			pageData.PageError = append(pageData.PageError, Error{
 				ErrorCode:    1,
-				ErrorMessage: "Could not update product protein!",
+				ErrorMessage: fmt.Sprintf("Could not update product protein! %s", err),
+			})
+		}
+		price, err := strconv.Atoi(r.FormValue("productPrice"))
+		if err != nil {
+			pageData.PageError = append(pageData.PageError, Error{
+				ErrorCode:    1,
+				ErrorMessage: fmt.Sprintf("Could not update product price! %s", err),
 			})
 		}
 		pageData.Products = append(pageData.Products, ProductData{
@@ -126,15 +133,17 @@ func addProduct(w http.ResponseWriter, r *http.Request) {
 			ProdSodium:    sodium,
 			ProdCarbs:     carbs,
 			ProdProtein:   protein,
+			ProdPrice:     price,
 			ProdImage:     s3url,
 			ProdAdditives: strings.Split(r.FormValue("productAdditives"), ","),
 			ProdAllergens: strings.Split(r.FormValue("productAllergens"), ","),
 		})
-		result, err := Db.Exec("INSERT INTO productdata (prodid, barcode, name, brand, pic, location, weight, calories, fat, sodium, carbohydrates, protein, additives, allergens) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)",
+		result, err := Db.Exec("INSERT INTO productdata (prodid, barcode, name, brand, price, pic, location, weight, calories, fat, sodium, carbohydrates, protein, additives, allergens) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)",
 			pageData.Products[0].ProdID,
 			pageData.Products[0].ProdBarcode,
 			pageData.Products[0].ProdName,
 			pageData.Products[0].ProdBrand,
+			pageData.Products[0].ProdPrice,
 			pageData.Products[0].ProdImage,
 			pageData.Products[0].ProdLocation,
 			pageData.Products[0].ProdWeight,
@@ -155,6 +164,10 @@ func addProduct(w http.ResponseWriter, r *http.Request) {
 			})
 		}
 	}
+	pageData.PageError = append(pageData.PageError, Error{
+		ErrorCode:    5,
+		ErrorMessage: "Product" + pageData.Products[0].ProdName + "added!",
+	})
 	err = tmpl.Execute(w, pageData)
 	if err != nil {
 		log.Print("Failed to render page: ", err)

@@ -95,6 +95,7 @@ func dbInit() error {
 				barcode VARCHAR(20),
 				name VARCHAR(30),
 				brand VARCHAR(20),
+				price INT,
 				pic VARCHAR(50),
 				location VARCHAR(50),
 				weight VARCHAR(10),
