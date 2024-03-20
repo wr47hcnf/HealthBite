@@ -83,25 +83,46 @@
         </div>
         <div class="form-row">
             <div class="col-md-4 mb-3">
-                <label for="productCarbohydrate">Carbohydrate (g)</label>
-                <input type="number" class="form-control form-custom-border" id="productCarbohydrate" name="productCarbohydrate" placeholder="Carbohydrate" required>
+                <label for="productCarbohydrates">Carbohydrate (g)</label>
+                <input type="number" class="form-control form-custom-border" id="productCarbohydrates" name="productCarbohydrates" placeholder="Carbohydrate" required>
                 <div class="invalid-feedback">
                     Please provide carbohydrate in grams.
                 </div>
             </div>
             <div class="col-md-4 mb-3">
-                <label for="protein">Protein (g)</label>
-                <input type="number" class="form-control form-custom-border" id="protein" placeholder="Protein" required>
+                <label for="productProtein">Protein (g)</label>
+                <input type="number" class="form-control form-custom-border" id="productProtein" placeholder="Protein" name="productProtein" required>
                 <div class="invalid-feedback">
                     Please provide protein in grams.
                 </div>
             </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="productAdditives">Additives</label>
+                <div id="additiveslist">
+                    <input type="text" class="form-control form-custom-border" id="productAdditives" name="productAdditives" placeholder="Additives">
+                </div>
+                <div class="invalid-feedback">
+                    Please list any additives.
+                </div>
+            </div>
+            <div class="col-md-1 mb-0.5">
+                <br>
+                <button type="button" class="btn btn-custom" id="addAdditives" onclick="addInput()">+</button> 
+            </div>
             <div class="col-md-4 mb-3">
                 <label for="productAllergens">Allergens</label>
-                <input type="text" class="form-control form-custom-border" id="productAllergens" name="productAllergens" placeholder="Allergens">
+                <div id="allergenslist">
+                    <input type="text" class="form-control form-custom-border" id="productAllergens" name="productAllergens" placeholder="Allergens">
+                </div>
                 <div class="invalid-feedback">
                     Please list any allergens.
                 </div>
+            </div>
+            <div class="col-md-1 mb-0.5">
+                <br>
+                <button type="button" class="btn btn-custom" id="addAllergens" onclick="addInput2()">+</button> 
             </div>
         </div>
 
@@ -184,6 +205,22 @@ async function renderOptions(products, dataList) {
         
         setTimeout(resolve, 0);
     });
+}
+function addInput() {
+    const container = document.getElementById("additiveslist");
+    const input = document.createElement("input");
+    input.type = "text";
+    input.className = "form-control form-custom-border"
+    input.placeholder="Additives"
+    container.appendChild(input);
+}
+function addInput2() {
+    const container = document.getElementById("allergenslist");
+    const input = document.createElement("input");
+    input.type = "text";
+    input.className = "form-control form-custom-border"
+    input.placeholder="Allergens"
+    container.appendChild(input);
 }
 
 </script>

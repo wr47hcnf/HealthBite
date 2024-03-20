@@ -162,7 +162,6 @@ html, body {
   }
 
   .footer {
-    position: absolute;
     flex-shrink: 0;
     bottom: 0;
     width: 100%;
