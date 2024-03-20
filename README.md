@@ -4,6 +4,9 @@ Is the name of the site three friends started working on where we are determined
 This project is made for the FIICode Web & Dev competition. You can find more info [here](https://fiicode-api.asii.ro/static/webdev2024).
 Project video presentation available on [youtube](https://youtu.be/_qNRvTLCSiY).
 
+## Live demo
+[healthbite.chaox.ro](https://healthbite.chaox.ro) If the website breaks, please let us know on Discord!
+
 ## Key aspects
 
 #### Backend Development in Go
