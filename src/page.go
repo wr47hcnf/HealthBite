@@ -380,7 +380,7 @@ func searchProduct(w http.ResponseWriter, r *http.Request) {
 	pageData := PageData{
 		PageTitle: productParam,
 	}
-	rows, err := Db.Query("SELECT * FROM productdata")
+	/*rows, err := Db.Query("SELECT * FROM productdata")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -408,8 +408,8 @@ func searchProduct(w http.ResponseWriter, r *http.Request) {
 	if err := rows.Err(); err != nil {
 		log.Fatal(err)
 	}
-
-	err = tmpl.Execute(w, pageData)
+	*/
+	err := tmpl.Execute(w, pageData)
 	if err != nil {
 		log.Print("Failed to render page: ", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
