@@ -82,25 +82,6 @@ func dbInit() error {
 		log.Println("Succesfully initialized 'userdata' table")
 	}
 
-	// Check 'nutritional_info' data type
-	tableExists = false
-	err = Db.QueryRow("SELECT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'nutritional_info')").Scan(&tableExists)
-	if err != nil {
-		log.Fatal("Failed to query db: ", err)
-	}
-	if !tableExists {
-		_, err = Db.Exec(`
-			CREATE TYPE nutritional_info AS (
-    				name TEXT,
-    				value TEXT
-			)
-		`)
-		if err != nil {
-			log.Fatal("Failed to initialize 'nutritional_info' data type ", err)
-		}
-		log.Println("Initialized nutritional_info data type")
-	}
-
 	// Check 'productdata'
 	tableExists = false
 	err = Db.QueryRow("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'productdata')").Scan(&tableExists)
@@ -118,7 +99,10 @@ func dbInit() error {
 				location VARCHAR(50),
 				weight VARCHAR(10),
 				calories INT,
-				nutritional_info nutritional_info[],
+				fat INT,
+				sodium INT,
+				carbohydrates INT,
+				protein INT,
 				additives VARCHAR(20)[],
 				allergens VARCHAR(20)[]
 			)

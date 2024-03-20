@@ -42,6 +42,10 @@ type ProductData struct {
 	ProdCalories    string
 	ProdImage       string
 	ProdWeight      int
+	ProdFat         int
+	ProdSodium      int
+	ProdCarbs       int
+	ProdProtein     int
 	NutritionalInfo string
 	ProdAllergens   []string
 	ProdAdditives   []string
