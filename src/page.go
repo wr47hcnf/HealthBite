@@ -331,7 +331,7 @@ func addProduct(w http.ResponseWriter, r *http.Request) {
 		}
 		result, err := Db.Exec(`INSERT INTO productdata (
     		prodid, barcode, name, brand, pic, location, weight, calories, nutritional_info, additives, allergens)
-    		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+    		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
 			pageData.Products[0].ProdID,
 			pageData.Products[0].ProdBarcode,
 			pageData.Products[0].ProdName,
