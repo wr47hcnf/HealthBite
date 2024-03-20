@@ -172,7 +172,7 @@ func viewProduct(w http.ResponseWriter, r *http.Request) {
 	))
 	productParam := r.URL.Query().Get("pid")
 	rows, err := Db.Query(`SELECT 
-	barcode, name, brand, pic, location, weight, calories, nutritional_info, additives, allergens
+	barcode, name, brand, pic, location, weight, calories, fat, sodium, carbohydrates, protein, additives, allergens
 	FROM productdata WHERE pid=$1`, productParam)
 	if err != nil {
 		log.Fatal(err)
@@ -191,7 +191,10 @@ func viewProduct(w http.ResponseWriter, r *http.Request) {
 			&product.ProdLocation,
 			&product.ProdWeight,
 			&product.ProdCalories,
-			pq.Array(&product.NutritionalInfo),
+			&product.ProdFat,
+			&product.ProdSodium,
+			&product.ProdCarbs,
+			&product.ProdProtein,
 			pq.Array(&product.ProdAdditives),
 			pq.Array(&product.ProdAllergens),
 		)
@@ -244,7 +247,11 @@ func searchProduct(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		pageData.Products = append(pageData.Products, product)
+		product.ProdName = strings.ToLower(product.ProdName)
+		productParam = strings.ToLower(productParam)
+		if strings.Contains(product.ProdName, productParam) {
+			pageData.Products = append(pageData.Products, product)
+		}
 	}
 	if err := rows.Err(); err != nil {
 		log.Fatal(err)
