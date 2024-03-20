@@ -12,7 +12,7 @@
     <h1>Product Details</h1>
   </div>
 </section>
-
+{{range .Products}}
 <section class="container">
   <div class="card ix">
     <div class="row">
@@ -23,32 +23,33 @@
       <!-- Right Column with Description and Price -->
       <div class="col-md-6">
         <div class="card-body">
-          <h2 class="card-title">{{index .Products 0}}{{.ProdName}}</h2>
+          <h2 class="card-title">{{.ProdName}}</h2>
           <div class="description">
             <h3>Description</h3>
-            <p><strong>Brand:</strong> {{index .Products 0}}{{.ProdBrand}}</p>
-            <p><strong>Weight:</strong> {{index .Products 0}}{{.ProdWeight}}</p>
+            <p><strong>Brand:</strong> {{.ProdBrand}}</p>
+            <p><strong>Weight:</strong> {{.ProdWeight}}</p>
             <div class="nutritional-facts">
               <h4>Nutritional Facts</h4>
               <ul class="list-unstyled">
-                <li><strong>Calories:</strong> {{index .Products 0}}{{.ProdCalories}}</li>
-                <!--li><strong>Total Fat:</strong> [total fat value]</li>
-                <li><strong>Sodium:</strong> [sodium value]</li>
-                <li><strong>Total Carbohydrates:</strong> [total carbohydrates value]</li>
-                <li><strong>Protein:</strong> [protein value]</li-->
-                <li><strong>Allergens:</strong> {{index .Products 0}}{{range .ProdAllergens}}{{.}}{{end}}</li>
+                <li><strong>Calories:</strong> {{.ProdCalories}}</li>
+                <strong>Total Fat:</strong> {{.ProdFat}}</li>
+                <li><strong>Sodium:</strong> {{.ProdSodium}}</li>
+                <li><strong>Total Carbohydrates:</strong> {{.ProdCarbs}}</li>
+                <li><strong>Protein:</strong> {{.ProdProtein}}</li-->
+                <li><strong>Allergens:</strong> {{range .ProdAllergens}}{{.}}{{end}}</li>
               </ul>
             </div>
           </div>
           <div class="price">
             <h3>Price</h3>
-            <p>{{index .Products 0}}{{.ProdPrice}}</p>
+            <p>{{.ProdPrice}}</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+{{end}}
 
 <!-- User Reviews Carousel Section -->
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000"> <!-- Set the interval to 3000 milliseconds (3 seconds) -->

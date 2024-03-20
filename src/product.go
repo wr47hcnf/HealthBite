@@ -185,10 +185,10 @@ func viewProduct(w http.ResponseWriter, r *http.Request) {
 		"static/navbar.tmpl",
 		"static/footer.tmpl",
 	))
-	productParam := r.URL.Query().Get("pid")
+	productParam := r.URL.Query().Get("id")
 	rows, err := Db.Query(`SELECT 
 	barcode, name, brand, pic, location, weight, calories, fat, sodium, carbohydrates, protein, additives, allergens
-	FROM productdata WHERE pid=$1`, productParam)
+	FROM productdata WHERE prodid=$1`, productParam)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -220,9 +220,6 @@ func viewProduct(w http.ResponseWriter, r *http.Request) {
 	}
 	if err := rows.Err(); err != nil {
 		log.Fatal(err)
-	}
-	pageData = PageData{
-		PageTitle: pageData.Products[0].ProdName,
 	}
 	err = tmpl.Execute(w, pageData)
 	if err != nil {
