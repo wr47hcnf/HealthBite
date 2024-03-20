@@ -14,6 +14,7 @@
         </form>
         <div id="recommendations"></div>
       </li>
+      <button type="button" class="btn btn-custom" id="redirectAddProduct">Add Product</button>
       {{if eq .UserInfo.IsLogged true}}
       <!-- Profile link -->
       <li class="nav-item">
@@ -29,4 +30,9 @@
 </nav>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+document.getElementById("redirectAddProduct").addEventListener("click", function() {
+  window.location.href = "/addproduct";
+});
+</script>
 {{end}}
