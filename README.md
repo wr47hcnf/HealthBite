@@ -14,9 +14,38 @@ To ensure data security and integrity, the site will implement input sanitizatio
 #### Minimal JavaScript Usage
 The site will prioritize minimal use of JavaScript to promote fast loading times and reduce client-side processing. By keeping JavaScript usage to a minimum, the site will deliver a streamlined user experience while maintaining high performance and efficient resource utilization.
 
+#### Secure data storage
+Users and products are referenced by their UUIDs, and sensitive information is encrypted with bcrypt. This makes the project comply with modern security practices.
+#### Continous Integration
+After each commit, the source code goes through a CI/CD pipeline to ensure that every change in the code does not break the project. This ensures the project will run every time and without any hiccups in development!
+
+#### Powered by Amazon Web Services
+Our project utilizes AWS to power the project. With the power of the cloud, we are able to compute high amounts of users and products without any downtime!
+
 ## Prerequisites
 
 To run the application smoothly, make sure to configure a PostgreSQL database with the constants set in the constants.go file.
+
+```
+package main
+
+const (
+        // Postgresql
+        host     = "<PG_IP>"
+        port     = <DB_PORT>
+        user     = "<PG_USERNAME>"
+        password = "<PASSWORD>"
+        dbname   = "<DATABASE>"
+
+        // AWS
+        aws_region = "<AWS_REGION>"
+        aws_access = "<AWS_ACCESS_KEY>"
+        aws_secret = "<AWS_SECRET>"
+
+        // S3
+        bucketName = "<BUCKET_NAME>"
+)
+```
 
 ## Deployment
 
