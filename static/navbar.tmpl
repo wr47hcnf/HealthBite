@@ -8,8 +8,8 @@
   <div class="navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <form class="form-inline my-2 my-lg-0" onsubmit="return fetchRecommendations(event)">
-          <input class="form-control mr-sm-2 search-textbox" type="search" id="searchInput" placeholder="Search products..." aria-label="Search" oninput="showRecommendations(this.value)">
+        <form class="form-inline my-2 my-lg-0" action="/search" method="get">
+          <input class="form-control mr-sm-2 search-textbox" type="search" id="searchInput" name="product" placeholder="Search products..." aria-label="Search">
           <button class="btn btn-outline-light my-2 my-sm-0 search-button" type="submit"><i class="fas fa-search"></i></button>
         </form>
         <div id="recommendations"></div>
@@ -29,57 +29,4 @@
 </nav>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  function showRecommendations(input) {
-    // Add code to display live recommendations as the user types
-    const minInputLength = 3; // Minimum input length to start showing recommendations
-    const recommendationsDiv = document.getElementById('recommendations');
-    if (input.length >= minInputLength) {
-      // Use AJAX to fetch live recommendations based on the input
-      $.ajax({
-        url: '/live-recommendations', // Replace with your backend endpoint for live recommendations
-        method: 'GET',
-        data: { input: input },
-        success: function(data) {
-          // Clear previous recommendations
-          recommendationsDiv.innerHTML = '';
-          // Display the live recommendations
-          data.liveRecommendations.forEach(recommendation => {
-            const recommendationItem = document.createElement('div');
-            recommendationItem.textContent = recommendation;
-            recommendationsDiv.appendChild(recommendationItem);
-          });
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-          console.error('Error fetching live recommendations:', errorThrown);
-        }
-      });
-    } else {
-      // Clear recommendations if the input length is less than the minimum
-      recommendationsDiv.innerHTML = '';
-    }
-  }
-
-  async function fetchRecommendations(event) {
-    event.preventDefault(); // Prevent the form from submitting normally
-
-    const userInput = document.getElementById('searchInput').value;
-    try {
-      const response = await fetch(`/recommendations?input=${userInput}`); // Replace with your backend endpoint
-      const data = await response.json();
-
-      // Display the recommendations in the UI
-      const recommendationsDiv = document.getElementById('recommendations');
-      recommendationsDiv.innerHTML = ''; // Clear previous recommendations
-      data.recommendations.forEach((recommendation) => {
-        const recommendationItem = document.createElement('div');
-        recommendationItem.textContent = recommendation;
-        recommendationsDiv.appendChild(recommendationItem);
-      });
-    } catch (error) {
-      console.error('Error fetching recommendations:', error);
-    }
-  }
-</script>
-
 {{end}}

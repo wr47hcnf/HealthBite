@@ -287,10 +287,10 @@ func addProduct(w http.ResponseWriter, r *http.Request) {
 			tmpl.Execute(w, pageData)
 			return
 		}
-		productpic := r.Form.Get("productpic")
+		productpic := r.Form.Get("productPhoto")
 		var s3url string
 		if productpic != "" {
-			pfpFile, pfpHeader, err := r.FormFile("productProductPic")
+			pfpFile, pfpHeader, err := r.FormFile("productPhoto")
 			if err != nil {
 				log.Printf("Failed to parse pfp for %s", r.RemoteAddr)
 				pageData.PageError = append(pageData.PageError, Error{
@@ -330,13 +330,14 @@ func addProduct(w http.ResponseWriter, r *http.Request) {
 				fmt.Sprintf("(%s,%s)", pq.QuoteLiteral(v), pq.QuoteLiteral(r.FormValue(fmt.Sprint(v)))))
 		}
 		result, err := Db.Exec(`INSERT INTO productdata (
-    		prodid, barcode, name, brand, pic, weight, calories, nutritional_info, additives, allergens)
+    		prodid, barcode, name, brand, pic, location, weight, calories, nutritional_info, additives, allergens)
     		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
 			pageData.Products[0].ProdID,
 			pageData.Products[0].ProdBarcode,
 			pageData.Products[0].ProdName,
 			pageData.Products[0].ProdBrand,
 			s3url,
+			pageData.Products[0].ProdLocation,
 			pageData.Products[0].ProdWeight,
 			pageData.Products[0].ProdCalories,
 			pq.Array(nutritional_info),
@@ -387,11 +388,39 @@ func searchProduct(w http.ResponseWriter, r *http.Request) {
 	pageData := PageData{
 		PageTitle: productParam,
 	}
-	err := tmpl.Execute(w, pageData)
+	rows, err := Db.Query("SELECT * FROM productdata")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var product ProductData
+		err := rows.Scan(
+			&product.ProdID,
+			&product.ProdBarcode,
+			&product.ProdName,
+			&product.ProdBrand,
+			&product.ProdImage,
+			&product.ProdLocation,
+			&product.ProdWeight,
+			&product.ProdCalories,
+			&product.NutritionalInfo,
+			&product.ProdAdditives,
+			&product.ProdAllergens,
+		)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pageData.Products = append(pageData.Products, product)
+	}
+	if err := rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	err = tmpl.Execute(w, pageData)
 	if err != nil {
 		log.Print("Failed to render page: ", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	tmpl.Execute(w, pageData)
 }
