@@ -32,7 +32,7 @@ package main
 const (
         // Postgresql
         host     = "<PG_IP>"
-        port     = <DB_PORT>
+        port     = <DB_PORT> // Usually 5432
         user     = "<PG_USERNAME>"
         password = "<PASSWORD>"
         dbname   = "<DATABASE>"
