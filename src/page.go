@@ -67,7 +67,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	rows, err := Db.Query("SELECT * FROM productdata")
+	rows, err := Db.Query("SELECT name, brand, pic FROM productdata")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -75,17 +75,9 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		var product ProductData
 		err := rows.Scan(
-			&product.ProdID,
-			&product.ProdBarcode,
 			&product.ProdName,
 			&product.ProdBrand,
 			&product.ProdImage,
-			&product.ProdLocation,
-			&product.ProdWeight,
-			&product.ProdCalories,
-			&product.NutritionalInfo,
-			&product.ProdAdditives,
-			&product.ProdAllergens,
 		)
 		if err != nil {
 			log.Fatal(err)
