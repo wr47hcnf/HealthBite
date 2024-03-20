@@ -308,13 +308,23 @@ func addProduct(w http.ResponseWriter, r *http.Request) {
 			}
 			s3url = fmt.Sprintf("https://%s.s3-%s.amazonaws.com/%s", bucketName, aws_region, key)
 		}
+		weight, err := strconv.Atoi(r.FormValue("productWeight"))
+		if err != nil {
+			pageData.PageError = append(pageData.PageError, Error{
+				ErrorCode:    1,
+				ErrorMessage: "Could not update product weight!",
+			})
+		}
 		pageData.Products = append(pageData.Products, ProductData{
-			ProdID:       productUUID,
-			ProdName:     r.FormValue("productName"),
-			ProdBarcode:  r.FormValue("productBarcode"),
-			ProdLocation: r.FormValue("productLocation"),
-			ProdBrand:    r.FormValue("productBrand"),
-			ProdCalories: r.FormValue("productCalories"),
+			ProdID:        productUUID,
+			ProdName:      r.FormValue("productName"),
+			ProdBarcode:   r.FormValue("productBarcode"),
+			ProdLocation:  r.FormValue("productLocation"),
+			ProdBrand:     r.FormValue("productBrand"),
+			ProdCalories:  r.FormValue("productCalories"),
+			ProdWeight:    weight,
+			ProdAdditives: strings.Split(r.FormValue("productAdditives"), ","),
+			ProdAllergens: strings.Split(r.FormValue("productAllergens"), ","),
 		})
 		var nutritional_info []string
 		for _, v := range []string{"productFat", "productSodium", "productCarbohydrate", "ProductProtein"} {
@@ -356,11 +366,43 @@ func viewProduct(w http.ResponseWriter, r *http.Request) {
 		"static/navbar.tmpl",
 		"static/footer.tmpl",
 	))
-	productParam := r.URL.Query().Get("product")
-	pageData := PageData{
-		PageTitle: productParam,
+	productParam := r.URL.Query().Get("pid")
+	rows, err := Db.Query(`SELECT 
+	barcode, name, brand, pic, location, weight, calories, nutritional_info, additives, allergens
+	FROM productdata WHERE pid=$1`, productParam)
+	if err != nil {
+		log.Fatal(err)
 	}
-	err := tmpl.Execute(w, pageData)
+	pageData := PageData{
+		PageTitle: "Product Details",
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var product ProductData
+		err := rows.Scan(
+			&product.ProdBarcode,
+			&product.ProdName,
+			&product.ProdBrand,
+			&product.ProdImage,
+			&product.ProdLocation,
+			&product.ProdWeight,
+			&product.ProdCalories,
+			pq.Array(&product.NutritionalInfo),
+			pq.Array(&product.ProdAdditives),
+			pq.Array(&product.ProdAllergens),
+		)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pageData.Products = append(pageData.Products, product)
+	}
+	if err := rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+	pageData = PageData{
+		PageTitle: pageData.Products[0].ProdName,
+	}
+	err = tmpl.Execute(w, pageData)
 	if err != nil {
 		log.Print("Failed to render page: ", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -380,7 +422,7 @@ func searchProduct(w http.ResponseWriter, r *http.Request) {
 	pageData := PageData{
 		PageTitle: productParam,
 	}
-	/*rows, err := Db.Query("SELECT * FROM productdata")
+	rows, err := Db.Query("SELECT prodid, name, brand, pic, location, calories FROM productdata")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -389,16 +431,11 @@ func searchProduct(w http.ResponseWriter, r *http.Request) {
 		var product ProductData
 		err := rows.Scan(
 			&product.ProdID,
-			&product.ProdBarcode,
 			&product.ProdName,
 			&product.ProdBrand,
 			&product.ProdImage,
 			&product.ProdLocation,
-			&product.ProdWeight,
 			&product.ProdCalories,
-			&product.NutritionalInfo,
-			&product.ProdAdditives,
-			&product.ProdAllergens,
 		)
 		if err != nil {
 			log.Fatal(err)
@@ -408,8 +445,8 @@ func searchProduct(w http.ResponseWriter, r *http.Request) {
 	if err := rows.Err(); err != nil {
 		log.Fatal(err)
 	}
-	*/
-	err := tmpl.Execute(w, pageData)
+
+	err = tmpl.Execute(w, pageData)
 	if err != nil {
 		log.Print("Failed to render page: ", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)

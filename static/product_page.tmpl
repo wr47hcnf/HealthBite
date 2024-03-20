@@ -9,7 +9,7 @@
 
 <section class="headline">
   <div class="container">
-    <h1>Name of the product</h1>
+    <h1>Product Details</h1>
   </div>
 </section>
 
@@ -23,26 +23,26 @@
       <!-- Right Column with Description and Price -->
       <div class="col-md-6">
         <div class="card-body">
-          <h2 class="card-title">Product Name</h2>
+          <h2 class="card-title">{{index .Products 0}}{{.ProdName}}</h2>
           <div class="description">
             <h3>Description</h3>
-            <p><strong>Brand:</strong> Product Brand</p>
-            <p><strong>Weight:</strong> Product Weight</p>
+            <p><strong>Brand:</strong> {{index .Products 0}}{{.ProdBrand}}</p>
+            <p><strong>Weight:</strong> {{index .Products 0}}{{.ProdWeight}}</p>
             <div class="nutritional-facts">
               <h4>Nutritional Facts</h4>
               <ul class="list-unstyled">
-                <li><strong>Calories:</strong> [calories value]</li>
-                <li><strong>Total Fat:</strong> [total fat value]</li>
+                <li><strong>Calories:</strong> {{index .Products 0}}{{.ProdCalories}}</li>
+                <!--li><strong>Total Fat:</strong> [total fat value]</li>
                 <li><strong>Sodium:</strong> [sodium value]</li>
                 <li><strong>Total Carbohydrates:</strong> [total carbohydrates value]</li>
-                <li><strong>Protein:</strong> [protein value]</li>
-                <li><strong>Allergens:</strong> [list of allergens]</li>
+                <li><strong>Protein:</strong> [protein value]</li-->
+                <li><strong>Allergens:</strong> {{index .Products 0}}{{range .ProdAllergens}}{{.}}{{end}}</li>
               </ul>
             </div>
           </div>
           <div class="price">
             <h3>Price</h3>
-            <p>$99.99</p>
+            <p>{{index .Products 0}}{{.ProdPrice}}</p>
           </div>
         </div>
       </div>
