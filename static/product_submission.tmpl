@@ -12,7 +12,7 @@
 
         <h3 class="description-header">Photo</h3>
         <form id="productPhoto" method="POST" enctype="multipart/form-data">
-            <input type="file" class="form-control" id="productPhoto" name= "productPhoto">
+            <input type="file" class="form-control" id="productPhoto" name="productPhoto">
 
         <!-- Description Header -->
         <h3 class="description-header">Description</h3>
@@ -33,6 +33,10 @@
         <!-- Form Section 2: Weight -->
         <div class="form-row">
             <div class="col-md-4 mb-3">
+                <label for="productBarcode">Barcode</label>
+                <input type="text" class="form-control form-custom-border" id="productBarcode" name="productBarcode" placeholder="Barcode" required>
+            </div>
+            <div class="col-md-4 mb-3">
                 <label for="productWeight">Weight</label>
                 <input type="text" class="form-control form-custom-border" id="productWeight" name="productWeight" placeholder="Weight" required>
             </div>
@@ -43,6 +47,10 @@
             <div class="col-md-4 mb-3">
                 <label for="productPrice">Price</label>
                 <input type="text" class="form-control form-custom-border" id="productPrice" name="productPrice" placeholder="Price" required>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="productLocation">Price</label>
+                <input type="text" class="form-control form-custom-border" id="productLocation" name="productLocation" placeholder="Location" required>
             </div>
         </div>
 
