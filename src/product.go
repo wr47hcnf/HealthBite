@@ -163,11 +163,13 @@ func addProduct(w http.ResponseWriter, r *http.Request) {
 				ErrorMessage: "Could not update product!",
 			})
 		}
+
+		pageData.PageError = append(pageData.PageError, Error{
+			ErrorCode:    5,
+			ErrorMessage: "Product" + pageData.Products[0].ProdName + "added!",
+		})
+
 	}
-	pageData.PageError = append(pageData.PageError, Error{
-		ErrorCode:    5,
-		ErrorMessage: "Product" + pageData.Products[0].ProdName + "added!",
-	})
 	err = tmpl.Execute(w, pageData)
 	if err != nil {
 		log.Print("Failed to render page: ", err)
