@@ -1,8 +1,8 @@
 # HealthBite
 
 Is the name of the site three friends started working on where we are determined to revolutionize the approach to public health. Recognizing the importance of preventive measures, we initiated the implementation of a groundbreaking web app, aimed at promoting healthier choices among the population.
-This project is made for the FIICode Web & Dev competition. You can find more info [here](https://fiicode-api.asii.ro/static/webdev2024)
-Project presentation available on youtube (https://youtu.be/_qNRvTLCSiY)
+This project is made for the FIICode Web & Dev competition. You can find more info [here](https://fiicode-api.asii.ro/static/webdev2024).
+Project video presentation available on [youtube](https://youtu.be/_qNRvTLCSiY)
 
 ## Key aspects
 
