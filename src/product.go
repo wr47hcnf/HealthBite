@@ -270,6 +270,13 @@ func searchProduct(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
+	if len(pageData.Products) == 0 {
+		pageData.PageError = append(pageData.PageError, Error{
+			ErrorCode:    1,
+			ErrorMessage: "Could not find any product containing the query " + productParam,
+		})
+	}
+
 	err = tmpl.Execute(w, pageData)
 	if err != nil {
 		log.Print("Failed to render page: ", err)
