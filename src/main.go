@@ -14,6 +14,7 @@ func main() {
 	http.HandleFunc("/profile", profilePage)
 	http.HandleFunc("/addproduct", addProduct)
 	http.HandleFunc("/product", viewProduct)
+	http.HandleFunc("/search", searchProduct)
 
 	http.HandleFunc("/", homePage)
 

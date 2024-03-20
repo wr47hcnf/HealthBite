@@ -69,7 +69,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 	}
 	rows, err := Db.Query("SELECT * FROM productdata")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer rows.Close()
 	for rows.Next() {
@@ -88,12 +88,12 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 			&product.ProdAllergens,
 		)
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 		pageData.Products = append(pageData.Products, product)
 	}
 	if err := rows.Err(); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	err = tmpl.Execute(w, pageData)
@@ -373,4 +373,25 @@ func viewProduct(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func searchProduct(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles(
+		"static/products_list.tmpl",
+		"static/error.tmpl",
+		"static/header.tmpl",
+		"static/navbar.tmpl",
+		"static/footer.tmpl",
+	))
+	productParam := r.URL.Query().Get("product")
+	pageData := PageData{
+		PageTitle: productParam,
+	}
+	err := tmpl.Execute(w, pageData)
+	if err != nil {
+		log.Print("Failed to render page: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	tmpl.Execute(w, pageData)
 }

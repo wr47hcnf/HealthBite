@@ -324,3 +324,19 @@ html, body {
   background-color: var(--secondary_1-color);
   color: black;
 }
+
+.ix{
+  background-color: var(--secondary_2-color);
+}
+
+.upvote-downvote{
+  color: var(--secondary_1-color);
+}
+
+.hate{
+  background-color:  var(--secondary_1-color)
+}
+
+.love{
+  color: var(--neutral-color);
+}
